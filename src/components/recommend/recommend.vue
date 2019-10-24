@@ -11,11 +11,25 @@
           </div>
         </slider>
       </div>
+      <div class="module">
+        <router-link class="module-item" to="/singer">
+          <img src="../../assets/singer.png" width="25" height="25">
+          <div class="tag">歌手</div>
+        </router-link>
+        <router-link class="module-item" to="/rank">
+          <img src="../../assets/rank.png" width="25" height="25">
+          <div class="tag">排行</div>
+        </router-link>
+        <router-link class="module-item" to="/sort">
+          <img src="../../assets/sort.png" width="25" height="25">
+          <div class="tag">分类</div>
+        </router-link>
+      </div>
       <div class="recommend-list">
 <!--   1.     官方歌单-->
         <div class="list-card">
           <h1 class="list-title">官方歌单</h1>
-          <span class="more" style="top: 22px">更多</span>
+          <span class="more">更多</span>
         </div>
         <ul class="songList" ref="songList">
             <li v-for="(item, index) in playList.slice(0, 5)" class="item" :key="index">
@@ -150,12 +164,21 @@
         position: relative
         width: 100%
         overflow: hidden
+      .module
+        display flex
+        margin 10px
+        justify-content space-around
+        text-align center
+        .module-item
+          align-items center
+          flex 0 1 auto
+          .tag
+            align-items center
+            padding-top 10px
       .recommend-list
         .list-card
           padding 0 10px
           position relative
-          &:first-child
-            padding-top 10px
           .more
             position absolute
             right 10px

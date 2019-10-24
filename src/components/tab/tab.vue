@@ -3,13 +3,13 @@
       <router-link tag="div" class="tab-item" to="/recommend">
         <span class="tab-link">首页</span>
       </router-link>
-      <router-link tag="div" class="tab-item" to="/singer">
+      <router-link tag="div" class="tab-item" to="/newRecommend">
         <span class="tab-link">推荐</span>
       </router-link>
       <router-link tag="div" class="tab-item" to="/search">
         <span class="tab-link">搜索</span>
       </router-link>
-      <router-link tag="div" class="tab-item" to="/rank">
+      <router-link tag="div" class="tab-item" to="/mine">
         <span class="tab-link">我的</span>
       </router-link>
     </div>
