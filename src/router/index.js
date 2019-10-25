@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Cube from 'cube-ui'
 import Router from 'vue-router'
 import Recommend from 'components/recommend/recommend'
 import NewRecommend from 'components/newRecommend/newRecommend'
@@ -8,6 +9,7 @@ import Singer from 'components/singer/singer'
 import Rank from 'components/rank/rank'
 import Sort from 'components/sort/sort'
 Vue.use(Router)
+Vue.use(Cube)
 // 路由组件
 export default new Router({
   routes: [

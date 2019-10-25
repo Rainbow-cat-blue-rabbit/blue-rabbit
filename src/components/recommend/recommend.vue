@@ -27,45 +27,62 @@
       </div>
       <div class="recommend-list">
 <!--   1.     官方歌单-->
-        <div class="list-card">
-          <h1 class="list-title">官方歌单</h1>
-          <span class="more">更多</span>
+        <div>
+          <div class="list-card">
+            <h1 class="list-title">官方歌单</h1>
+            <span class="more">更多</span>
+          </div>
+          <cube-scroll direction="horizontal" :data="playList"
+                       ref="scroll" class="horizontal-scroll-list-wrap">
+            <ul class="list-wrapper" ref="songList">
+              <li v-for="(item, index) in playList.slice(0, 5)" class="list-item" :key="index">
+                <div class="icon">
+                  <img v-lazy="item.cover_url_big" alt="" width="90" height="90">
+                </div>
+                <span v-html="item.title" class="title"></span>
+              </li>
+            </ul>
+          </cube-scroll>
         </div>
-        <ul class="songList" ref="songList">
-            <li v-for="(item, index) in playList.slice(0, 5)" class="item" :key="index">
-              <div class="icon">
-                <img v-lazy="item.cover_url_big" alt="" width="90" height="90">
-              </div>
-              <span v-html="item.title" class="title"></span>
-            </li>
-        </ul>
 <!--     2.   达人歌单-->
-        <div class="list-card">
-          <h1 class="list-title">达人歌单</h1>
-          <span class="more">更多</span>
+        <div>
+          <div class="list-card">
+            <h1 class="list-title">达人歌单</h1>
+            <span class="more">更多</span>
+          </div>
+          <cube-scroll direction="horizontal" :data="rePlaylist"
+                       ref="scroll" class="horizontal-scroll-list-wrap">
+            <ul class="list-wrapper">
+              <li v-for="(item, index) in rePlaylist.slice(0, 5)" class="list-item item" :key="index">
+                <div class="icon">
+                  <img v-lazy="item.cover" alt="" width="90" height="90">
+                </div>
+                <span v-html="item.title" class="s-title"></span>
+              </li>
+            </ul>
+          </cube-scroll>
         </div>
-        <ul class="songList">
-          <li v-for="(item, index) in rePlaylist.slice(0, 5)" class="item" :key="index">
-            <div class="icon">
-              <img v-lazy="item.cover" alt="" width="90" height="90">
-            </div>
-            <span v-html="item.title" class="title"></span>
-          </li>
-        </ul>
+
 <!--   3.     新碟-->
-        <div class="list-card">
-          <h1 class="list-title">最新专辑</h1>
-          <span class="more">更多</span>
+        <div>
+          <div class="list-card">
+            <h1 class="list-title">最新专辑</h1>
+            <span class="more">更多</span>
+          </div>
+          <cube-scroll direction="horizontal" :data="newAlbum"
+                       ref="scroll" class="horizontal-scroll-list-wrap">
+            <ul class="list-wrapper">
+            <li v-for="(items, index) in newAlbum.slice(0, 5)" class="list-item" :key="index">
+              <div class="icon">
+                <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="90" height="90">
+              </div>
+              <div v-html="items.name" class="name"></div>
+              <div v-html="items.release_time" class="time"></div>
+            </li>
+          </ul>
+          </cube-scroll>
         </div>
-        <ul class="songList">
-          <li v-for="(items, index) in newAlbum.slice(0, 5)" class="item" :key="index">
-            <div class="icon">
-              <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="90" height="90">
-            </div>
-            <div v-html="items.name" class="name"></div>
-            <div v-html="items.release_time" class="time"></div>
-          </li>
-        </ul>
+
       </div>
     </div>
     <div class="loading-container" v-if="!discList.length">
@@ -132,13 +149,11 @@
       _getRePlaylist () {
         getRePlaylist().then((res) => {
           this.rePlaylist = res.recomPlaylist.data.v_hot
-          // console.log(this.rePlaylist)
         })
       },
       _getNewAlbum () {
         getNewAlbum().then((res) => {
           this.newAlbum = res.new_album.data.albums
-          console.log(this.newAlbum)
         })
       }
     },
@@ -190,19 +205,20 @@
             line-height: 35px
             font-size 14px
             color $color-text-h
-        .songList
-          overflow: hidden
+      .horizontal-scroll-list-wrap
+        display flex
+        align-items: center
+        .list-wrapper
           display flex
-          flex-direction:row
-          flex-wrap: nowrap
           justify-content center
-          padding 10px
-          .item
-            flex 0 1 auto
+          .list-item
+            display inline-block
             padding 0 10px 10px 0
             .icon
               img
                border-radius 5px
+            .s-title
+              font-size 12px
           .title
             font-size 12px
           .name

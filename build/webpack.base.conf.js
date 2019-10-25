@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const TransformModulesPlugin = require('webpack-transform-modules-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -39,10 +40,15 @@ module.exports = {
       'common': resolve('src/common'),
       'components': resolve('src/components'),
       'api': resolve('src/api'),
-      'base': resolve('src/base')
+      'base': resolve('src/base'),
+      'cube-ui': 'cube-ui/lib'
     }
   },
-  module: {
+  plugins: [
+    // ...
+    new TransformModulesPlugin()
+],
+    module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
