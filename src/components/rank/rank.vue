@@ -1,28 +1,33 @@
 <template>
-<div class="rank">
-<scroll class="toplist">
-  <ul>
-    <li v-for="(items, index) in topList" :key="index" >
-      <div v-for="(item, index) in items.toplist" :key="index" class="item">
-        <div class="icon">
-          <img v-lazy="item.frontPicUrl" alt="" width="100" height="100">
-        </div>
-        <ul class="songList">
-          <li class="song" v-for="(song, index) in item.song" :key="index">
-            <span class="text_name">{{song.rank}}</span>
-            <span><span class="text_name">{{song.title}}</span>-{{song.singerName}}</span>
+  <transition name="slide">
+    <div class="rank">
+      <div class="back" @click="back">
+        <i class="icon-back"></i>
+      </div>
+      <h1 class="heading">排行</h1>
+      <scroll class="toplist">
+        <ul>
+          <li v-for="(items, index) in topList" :key="index" >
+            <div v-for="(item, index) in items.toplist" :key="index" class="item">
+              <div class="icon">
+                <img v-lazy="item.frontPicUrl" alt="" width="100" height="100">
+              </div>
+              <ul class="songList">
+                <li class="song" v-for="(song, index) in item.song" :key="index">
+                  <span class="text_name">{{song.rank}}</span>
+                  <span><span class="text_name">{{song.title}}</span>-{{song.singerName}}</span>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
-      </div>
-    </li>
-  </ul>
-  <div class="loading-container">
-    <loading></loading>
-  </div>
-</scroll>
-</div>
+        <div class="loading-container">
+          <loading></loading>
+        </div>
+      </scroll>
+    </div>
+  </transition>
 </template>
-
 <script>
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
@@ -42,7 +47,10 @@
           getTopList().then((res) => {
               this.topList = res.toplist.data.group
           })
-        }
+        },
+      back() {
+        this.$router.back()
+      }
     },
     components: {
       Scroll,
@@ -55,9 +63,36 @@
   @import "~common/stylus/variable"
 .rank
   position fixed
+  top 0
   width 100%
-  top 88px
   bottom 0
+  padding-top 30px
+  z-index 100
+  overflow: hidden
+  background: $color-background
+  &.slide-enter-active, &.slide-leave-active
+    transition all 0.3s
+  &.slide-enter, &.slide-leave-to
+    transform translate3d(100%, 0, 0)
+  .heading
+    position absolute
+    top 0
+    left 0
+    right 0
+    text-align center
+    white-space nowrap
+    line-height 40px
+    font-size 18px
+  .back
+    position absolute
+    top 0
+    left 6px
+    z-index 50
+    .icon-back
+      display block
+      padding 10px
+      font-size $font-size-large-x
+      color $color-theme
   .toplist
     height 100%
     overflow hidden

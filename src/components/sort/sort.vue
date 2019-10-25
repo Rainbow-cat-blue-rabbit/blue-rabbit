@@ -1,22 +1,27 @@
 <template>
- <div class="recommend">
-  <scroll ref="scroll" :data="discList" class="recommend-content">
-  <div class="recommend-list">
-    <h1 class="list-title">热门歌单推荐</h1>
-    <ul>
-      <li v-for="(item, index) in discList" class="item" :key="index">
-        <div class="icon">
-          <img v-lazy="item.imgurl"  width="60" height="60">
+  <transition name="slide">
+    <div class="recommend">
+      <div class="back" @click="back">
+        <i class="icon-back"></i>
+      </div>
+      <h1 class="heading">热门歌单推荐</h1>
+      <scroll ref="scroll" :data="discList" class="recommend-content">
+        <div class="recommend-list">
+          <ul>
+            <li v-for="(item, index) in discList" class="item" :key="index">
+              <div class="icon">
+                <img v-lazy="item.imgurl"  width="60" height="60">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p clas="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
         </div>
-        <div class="text">
-          <h2 class="name" v-html="item.creator.name"></h2>
-          <p clas="desc" v-html="item.dissname"></p>
-        </div>
-      </li>
-    </ul>
-  </div>
-</scroll>
-</div>
+      </scroll>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -41,6 +46,9 @@
             this.discList = res.data.list
           }
         })
+      },
+      back() {
+        this.$router.back()
       }
     },
     components: {
@@ -53,20 +61,42 @@
 <style scoped lang="stylus">
   @import '~common/stylus/variable'
   .recommend
-    position: fixed
-    width: 100%
-    top: 88px
-    bottom: 0
+    position fixed
+    top 0
+    width 100%
+    bottom 0
+    padding-top 30px
+    z-index 100
+    overflow: hidden
+    background: $color-background
+    &.slide-enter-active, &.slide-leave-active
+      transition all 0.3s
+    &.slide-enter, &.slide-leave-to
+      transform translate3d(100%, 0, 0)
+    .heading
+      position absolute
+      top 0
+      left 0
+      right 0
+      text-align center
+      white-space nowrap
+      line-height 40px
+      font-size 18px
+    .back
+      position absolute
+      top 0
+      left 6px
+      z-index 50
+      .icon-back
+        display block
+        padding 10px
+        font-size $font-size-large-x
+        color $color-theme
     .recommend-content
       height: 100%
       overflow: hidden
+      margin-top 10px
       .recommend-list
-        .list-title
-          height: 25px
-          line-height: 25px
-          text-align center
-          font-size 14px
-          color $color-theme
         .item
           display flex
           align-items center

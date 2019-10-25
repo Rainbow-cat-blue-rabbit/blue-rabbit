@@ -33,7 +33,7 @@
             <span class="more">更多</span>
           </div>
           <cube-scroll direction="horizontal" :data="playList"
-                       ref="scroll" class="horizontal-scroll-list-wrap">
+             ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper" ref="songList">
               <li v-for="(item, index) in playList.slice(0, 5)" class="list-item" :key="index">
                 <div class="icon">
