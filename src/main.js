@@ -4,7 +4,7 @@ import VueLazyload from 'vue-lazyload'
 import App from './App'
 import fastclick from 'fastclick' // 解决3毫秒延迟
 import 'common/stylus/index.styl'
- import router from './router'
+import router from './router'
 Vue.config.productionTip = false
 fastclick.attach(document.body)
 

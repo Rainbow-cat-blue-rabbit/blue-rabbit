@@ -1,14 +1,10 @@
 <template>
   <transition name="slide">
     <div class="singer">
-
-      <div class="poster" v-for="(item, index) in rePlaylist.slice(0,1)" :key="index">
-        <img v-lazy="item.cover" class="cover">
         <div class="back" @click="back">
           <i class="icon-back"></i>
         </div>
         <h1 class="heading">达人歌单</h1>
-      </div>
       <scroll class="listview" :data="rePlaylist" ref="scroll">
         <ul class="list-wrapper">
           <li v-for="(item, index) in rePlaylist" class="list-item item" :key="index">
@@ -67,7 +63,7 @@
     top 0
     width 100%
     bottom 0
-    /*padding-top 30px*/
+    padding-top 35px
     z-index 100
     overflow: hidden
     background: $color-background
@@ -75,33 +71,26 @@
       transition all 0.3s
     &.slide-enter, &.slide-leave-to
       transform translate3d(100%, 0, 0)
-    .poster
-      position: relative
+    .heading
+      position absolute
       top 0
-      .cover
-        width 100%
-        height 200px
-        transform-origin top
-        background-size cover
-      .heading
-        position absolute
-        top 0
-        left 0
-        right 0
-        text-align center
-        white-space nowrap
-        line-height 40px
-        font-size 18px
-      .back
-        position absolute
-        top 0
-        left 6px
-        z-index 50
-        .icon-back
-          display block
-          padding 10px
-          font-size $font-size-large-x
-          color $color-theme
+      left 0
+      right 0
+      text-align center
+      white-space nowrap
+      line-height 40px
+      font-size 18px
+      color $color-theme
+    .back
+      position absolute
+      top 0
+      left 6px
+      z-index 50
+      .icon-back
+        display block
+        padding 10px
+        font-size $font-size-large-x
+        color $color-theme
     .listview
       position: relative
       width: 100%

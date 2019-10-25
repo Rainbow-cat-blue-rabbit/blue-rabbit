@@ -10,6 +10,7 @@ import Rank from 'components/rank/rank'
 import Sort from 'components/sort/sort'
 import OfficialMore from 'components/Official-more/Official-more'
 import Doyen from 'components/doyen/doyen'
+import LatestAlbum from 'components/latest-album/latest-album'
 Vue.use(Router)
 Vue.use(Cube)
 // 路由组件
@@ -56,6 +57,10 @@ export default new Router({
     {
       path: '/doyen',
       component: Doyen
+    },
+    {
+      path: '/latestAlbum',
+      component: LatestAlbum
     }
 
   ]

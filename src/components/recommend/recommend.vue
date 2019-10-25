@@ -71,7 +71,9 @@
         <div>
           <div class="list-card">
             <h1 class="list-title">最新专辑</h1>
-            <span class="more">更多</span>
+            <router-link to="/latestAlbum">
+              <span class="more">更多</span>
+            </router-link>
           </div>
           <cube-scroll direction="horizontal" :data="newAlbum"
                        ref="scroll" class="horizontal-scroll-list-wrap">
@@ -202,7 +204,7 @@
           .more
             position absolute
             right 10px
-            top 12px
+            top 20px
             font-size 12px
             color $color-text-h
           .list-title

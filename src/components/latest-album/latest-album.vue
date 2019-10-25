@@ -1,45 +1,46 @@
 <template>
   <transition name="slide">
     <div class="singer">
-        <div class="back" @click="back">
-          <i class="icon-back"></i>
-        </div>
-        <h1 class="heading">官方歌单</h1>
-      <scroll class="listview" :data="playList" ref="scroll">
-        <ul class="list-wrapper" ref="songList">
-          <li v-for="(item, index) in playList" class="list-item" :key="index">
+      <div class="back" @click="back">
+        <i class="icon-back"></i>
+      </div>
+      <h1 class="heading">最新专辑</h1>
+      <scroll class="listview" :data="newAlbum" ref="scroll">
+        <ul class="list-wrapper">
+          <li v-for="(items, index) in newAlbum" class="list-item" :key="index">
             <div class="icon">
-              <img v-lazy="item.cover_url_big" alt="" width="160" height="160">
+              <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="150" height="150">
             </div>
-            <div v-html="item.title" class="title"></div>
+            <div v-html="items.name" class="name"></div>
+            <div v-html="items.release_time" class="time"></div>
           </li>
         </ul>
       </scroll>
-        <div v-if="!playList.length" class="loading-container">
-          <loading></loading>
-        </div>
+      <div v-if="!newAlbum.length" class="loading-container">
+        <loading></loading>
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
-  import { getPlayList } from 'api/recommend'
+  import { getNewAlbum } from 'api/recommend'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   export default {
     name: 'Official-more',
     data () {
       return {
-        playList: []
+        newAlbum: []
       }
     },
     created () {
-      this._getPlayList()
+      this._getNewAlbum()
     },
     methods: {
-      _getPlayList () {
-        getPlayList().then((res) => {
-          this.playList = res.playlist.data.v_playlist
+      _getNewAlbum () {
+        getNewAlbum().then((res) => {
+          this.newAlbum = res.new_album.data.albums
         })
       },
       back() {
@@ -102,13 +103,19 @@
           padding 10px
           .icon
             img
-             border-radius 5px
-          .title
+              border-radius 5px
+          .name
             font-size 14px
-            line-height 22px
             color #000
+            line-height 22px
+            height 22px
             width 130px
             white-space nowrap
             text-overflow ellipsis
             overflow hidden
+          .time
+            font-size 14px
+            color $color-time
+            line-height 22px
+            height 22px
 </style>
