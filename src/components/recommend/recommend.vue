@@ -30,7 +30,9 @@
         <div>
           <div class="list-card">
             <h1 class="list-title">官方歌单</h1>
-            <span class="more">更多</span>
+            <router-link to="/Official-more">
+              <span class="more">更多</span>
+            </router-link>
           </div>
           <cube-scroll direction="horizontal" :data="playList"
              ref="scroll" class="horizontal-scroll-list-wrap">
@@ -48,7 +50,9 @@
         <div>
           <div class="list-card">
             <h1 class="list-title">达人歌单</h1>
-            <span class="more">更多</span>
+            <router-link to="/doyen">
+              <span class="more">更多</span>
+            </router-link>
           </div>
           <cube-scroll direction="horizontal" :data="rePlaylist"
                        ref="scroll" class="horizontal-scroll-list-wrap">
@@ -190,6 +194,7 @@
           .tag
             align-items center
             padding-top 10px
+            color black
       .recommend-list
         .list-card
           padding 0 10px
@@ -201,10 +206,11 @@
             font-size 12px
             color $color-text-h
           .list-title
-            height: 35px
-            line-height: 35px
-            font-size 14px
+            height: 48px
+            line-height: 48px
+            font-size 16px
             color $color-text-h
+            font-weight bold
       .horizontal-scroll-list-wrap
         display flex
         align-items: center
@@ -224,9 +230,13 @@
           .name
             font-size 12px
             line-height 20px
+            width 90px
+            white-space nowrap
+            overflow: hidden
+            text-overflow:ellipsis
           .time
             font-size 12px
-            color $color-time
+            color $color-tag
       .loading-container
         position absolute
         width 100%
