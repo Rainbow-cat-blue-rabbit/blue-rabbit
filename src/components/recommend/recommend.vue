@@ -1,6 +1,6 @@
 <template>
 <div class="recommend">
-  <scroll ref="scroll" class="recommend-content" :data="discList">
+  <scroll ref="scroll" class="recommend-content">
     <div>
       <div class="slider-wrapper" v-if="recommends.length">
         <slider>
@@ -37,7 +37,7 @@
           <cube-scroll direction="horizontal" :data="playList"
              ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper" ref="songList">
-              <li v-for="(item, index) in playList.slice(0, 5)" class="list-item" :key="index">
+              <li @click="selectItem(item)" v-for="(item, index) in playList.slice(0, 5)" class="list-item" :key="index">
                 <div class="icon">
                   <img v-lazy="item.cover_url_big" alt="" width="90" height="90">
                 </div>
@@ -88,10 +88,9 @@
           </ul>
           </cube-scroll>
         </div>
-
       </div>
     </div>
-    <div class="loading-container" v-if="!discList.length">
+    <div class="loading-container" v-if="!newAlbum.length">
       <loading></loading>
     </div>
   </scroll>
@@ -99,7 +98,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {getRecommend, getDiscList, getPlayList, getRePlaylist, getNewAlbum} from 'api/recommend'
+  import {getRecommend, getPlayList, getRePlaylist, getNewAlbum} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   import Slider from 'base/slider/slider'
   import Scroll from 'base/scroll/scroll'
@@ -109,7 +108,6 @@
     data () {
       return {
         recommends: [],
-        discList: [],
         playList: [],
         rePlaylist: [],
         newAlbum: []
@@ -117,7 +115,6 @@
     },
     created () {
       this._getRecommend()
-      this._getDiscList()
       this._getPlayList()
       this._getRePlaylist()
       this._getNewAlbum()
@@ -130,6 +127,13 @@
           this.checkloaded = true
         }
       },
+      // 点击选中，跳转路由
+      selectItem (item) {
+        this.$router.push({
+          path: `/Official-more/${item.tid}`
+        })
+      },
+      // 轮播图--推荐
       _getRecommend () {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
@@ -140,23 +144,19 @@
           console.log(err)
         })
       },
-      _getDiscList () {
-        getDiscList().then((res) => {
-          if (res.code === ERR_OK) {
-              this.discList = res.data.list
-          }
-        })
-      },
+      // 官方歌单
       _getPlayList () {
         getPlayList().then((res) => {
           this.playList = res.playlist.data.v_playlist
         })
       },
+      // 达人歌单
       _getRePlaylist () {
         getRePlaylist().then((res) => {
           this.rePlaylist = res.recomPlaylist.data.v_hot
         })
       },
+      // 最新专辑
       _getNewAlbum () {
         getNewAlbum().then((res) => {
           this.newAlbum = res.new_album.data.albums

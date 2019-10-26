@@ -5,7 +5,8 @@
         <i class="icon-back"></i>
       </div>
       <h1 class="heading">歌手</h1>
-      <list-view :data="singers"></list-view>
+      <list-view @select="selectSinger" :data="singers"></list-view>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -24,10 +25,15 @@
       this._getSingerList()
     },
     methods: {
+      selectSinger (singer) {
+        // 编程式接口
+        this.$router.push({
+          path: `/singer/${singer.singer_mid}`
+        })
+      },
       _getSingerList () {
         getSingerList().then((res) => {
             this.singers = res.singerList.data.singerlist
-            console.log(this.singers)
         })
       },
       back() {
