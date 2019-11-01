@@ -14,6 +14,7 @@
 <script>
   import {getSingerList} from 'api/singer'
   import ListView from 'base/listview/listview'
+  import { mapMutations } from 'vuex'
   export default {
     name: 'singer',
     data () {
@@ -30,6 +31,8 @@
         this.$router.push({
           path: `/singer/${singer.singer_mid}`
         })
+        // 实现对mutation的提交 类似于 this.$store.commit('setSinger', singer)，进而改变 state值
+        this.setSinger(singer)
       },
       _getSingerList () {
         getSingerList().then((res) => {
@@ -38,7 +41,10 @@
       },
       back() {
         this.$router.back()
-      }
+      },
+      ...mapMutations({
+        setSinger: 'SET_SINGER'
+      })
     },
     components: {
       ListView
