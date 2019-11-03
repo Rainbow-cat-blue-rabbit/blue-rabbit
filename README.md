@@ -1,3 +1,5 @@
+# 欢迎来到我的蓝兔音乐
+
 # vue-music
 
 > A Vue.js project

@@ -17,6 +17,10 @@
         type: Boolean,
         default: true
       },
+      listenScroll: {
+        type: Boolean,
+        default: false
+      },
       data: {
         type: Array,
         default: null
@@ -35,6 +39,12 @@
           click: this.click,
           eventPassthrough: 'horizontal' // 这是代表的横向滚动
         })
+        if (this.listenScroll) {
+          let me = this
+          this.scroll.on('scroll', (pos) => {
+            me.$emit('scroll', pos)
+          })
+        }
       },
       disable () {
         this.scroll && this.scroll.disable()

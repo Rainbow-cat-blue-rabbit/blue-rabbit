@@ -1,50 +1,48 @@
 <template>
   <transition name="slide">
-    <div class="recommend">
-      <div class="back" @click="back">
-        <i class="icon-back"></i>
-      </div>
-      <h1 class="heading">热门歌单推荐</h1>
-      <scroll ref="scroll" :data="discList" class="recommend-content">
-        <div class="recommend-list">
-          <ul>
-            <li v-for="(item, index) in discList" class="item" :key="index">
-              <div class="icon">
-                <img v-lazy="item.imgurl"  width="60" height="60">
-              </div>
-              <div class="text">
-                <h2 class="name" v-html="item.creator.name"></h2>
-                <p clas="desc" v-html="item.dissname"></p>
-              </div>
-            </li>
-          </ul>
+    <div class="singer">
+        <div class="back" @click="back">
+          <i class="icon-back"></i>
         </div>
+        <h1 class="heading">达人歌单</h1>
+      <scroll class="listview" :data="rePlaylist" ref="scroll">
+        <ul class="list-wrapper">
+          <li v-for="(item, index) in rePlaylist" class="list-item item" :key="index">
+            <div class="icon">
+              <img v-lazy="item.cover" alt="" width="90" height="90">
+            </div>
+            <div class="text">
+              <h2 class="name" v-html="item.username"></h2>
+              <p class="desc" v-html="item.title"></p>
+            </div>
+          </li>
+        </ul>
       </scroll>
+      <div v-if="!rePlaylist.length" class="loading-container">
+        <loading></loading>
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
-  import {ERR_OK} from 'api/config'
-  import { getDiscList } from 'api/recommend'
+  import { getRePlaylist } from 'api/recommend'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   export default {
-    name: 'sort',
+    name: 'doyen',
     data () {
       return {
-        discList: []
+        rePlaylist: []
       }
     },
     created () {
-      this._getDiscList()
+      this._getRePlaylist()
     },
     methods: {
-      _getDiscList () {
-        getDiscList().then((res) => {
-          if (res.code === ERR_OK) {
-            this.discList = res.data.list
-          }
+      _getRePlaylist () {
+        getRePlaylist().then((res) => {
+          this.rePlaylist = res.recomPlaylist.data.v_hot
         })
       },
       back() {
@@ -59,13 +57,13 @@
 </script>
 
 <style scoped lang="stylus">
-  @import '~common/stylus/variable'
-  .recommend
+  @import "~common/stylus/variable"
+  .singer
     position fixed
     top 0
     width 100%
     bottom 0
-    padding-top 30px
+    padding-top 35px
     z-index 100
     overflow: hidden
     background: $color-background
@@ -82,6 +80,7 @@
       white-space nowrap
       line-height 40px
       font-size 18px
+      color $color-theme
     .back
       position absolute
       top 0
@@ -92,20 +91,23 @@
         padding 10px
         font-size $font-size-large-x
         color $color-theme
-    .recommend-content
+    .listview
+      position: relative
+      width: 100%
       height: 100%
       overflow: hidden
-      margin-top 10px
-      .recommend-list
-        .item
+      .list-wrapper
+        .list-item
           display flex
-          align-items center
           box-sizing border-box
+          align-items center
           padding 0 20px 20px
           .icon
-            flex 0 0 60px
-            width 60px
+            flex 0 0 90px
+            width 90px
             padding-right 20px
+            img
+              border-radius 5px
           .text
             display flex
             flex-direction column
@@ -116,10 +118,7 @@
             font-size 14px
             .name
               margin-bottom 10px
-
-      .loading-container
-        position absolute
-        width 100%
-        top 50%
-        transform translateY(-50%)
+              color $color-text
+            .desc
+              color: $color-tag
 </style>

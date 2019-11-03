@@ -8,6 +8,10 @@ import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
 import Rank from 'components/rank/rank'
 import Sort from 'components/sort/sort'
+import OfficialMore from 'components/Official-more/Official-more'
+import Doyen from 'components/doyen/doyen'
+import LatestAlbum from 'components/latest-album/latest-album'
+import SingerDetail from 'components/singer-detail/singer-detail'
 Vue.use(Router)
 Vue.use(Cube)
 // 路由组件
@@ -37,7 +41,13 @@ export default new Router({
     },
     {
       path: '/singer',
-      component: Singer
+      component: Singer,
+      children: [
+        {
+          path: ':id',
+          component: SingerDetail
+        }
+      ]
     },
     {
       path: '/rank',
@@ -46,6 +56,18 @@ export default new Router({
     {
       path: '/sort',
       component: Sort
+    },
+    {
+      path: '/Official-more',
+      component: OfficialMore
+    },
+    {
+      path: '/doyen',
+      component: Doyen
+    },
+    {
+      path: '/latestAlbum',
+      component: LatestAlbum
     }
 
   ]

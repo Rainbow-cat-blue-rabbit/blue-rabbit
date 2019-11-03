@@ -18,3 +18,23 @@ export function getSingerList () {
     console.log(error)
   })
 }
+// 歌手详情
+export function getSingerDetail (singerMid) {
+  const url = '/api/getSingerDetail'
+  const data = Object.assign({}, commonParams, {
+    g_tk: 499021157,
+    loginUin: 0,
+    hostUin: 0,
+    format: 'json',
+    platform: 'yqq.json',
+    needNewCode: 0,
+    data: {'comm': {'ct': 24, 'cv': 0}, 'singerSongList': {'method': 'GetSingerSongList', 'param': {'order': 1, 'singerMid': `${singerMid}`, 'begin': 0, 'num': 10}, 'module': 'musichall.song_list_server'}}
+  })
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  }).catch((error) => {
+    console.log(error)
+  })
+}

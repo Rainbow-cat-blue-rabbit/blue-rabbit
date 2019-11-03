@@ -1,7 +1,7 @@
 <template>
     <scroll class="listview" :data="data">
         <ul>
-          <li v-for="(item, index) in data" class="list-group-item" :key="index">
+          <li @click="selectItem(item)" v-for="(item, index) in data" class="list-group-item" :key="index">
               <img v-lazy="item.singer_pic"  width="60" height="60" class="avatar">
               <span v-html="item.singer_name" class="name"></span>
           </li>
@@ -21,6 +21,12 @@
       data: {
         type: Array,
         default: null
+      }
+    },
+    methods: {
+      // 点击时向外派发，告诉父组件，点击的是哪个
+      selectItem (item) {
+        this.$emit('select', item)
       }
     },
     components: {
