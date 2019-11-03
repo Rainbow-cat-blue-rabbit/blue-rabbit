@@ -42,7 +42,7 @@
         }
         getSingerDetail(this.singer.singer_mid).then((res) => {
           this.songs = this._normalizeSongs(res.singerSongList.data.songList)
-          console.log(this.songs)
+          // console.log(this.songs)
            // console.log(res.singerSongList.data.songList)
         })
       },

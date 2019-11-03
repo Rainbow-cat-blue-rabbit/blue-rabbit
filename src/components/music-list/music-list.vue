@@ -7,9 +7,15 @@
       <div class="bg-image" :style="bgStyle" ref="bgImage">
         <div class="filter"></div>
       </div>
-      <scroll :data="songs" ref="list" class="list">
+      <div class="bg-layer" ref="layer"></div>
+      <scroll :data="songs" @scroll="scroll" ref="list" class="list"
+              :listen-scroll="listenScroll"
+              :probe-type="probeType">
         <div class="song-list-wrapper">
           <song-list :songs="songs"></song-list>
+        </div>
+        <div v-show="!songs.length" class="loading-container">
+          <loading></loading>
         </div>
       </scroll>
     </div>
@@ -18,6 +24,8 @@
 <script>
   import Scroll from 'base/scroll/scroll'
   import SongList from 'base/song-list/song-list'
+  import Loading from 'base/loading/loading'
+  const RESERVED_HEIGHT = 40
   export default {
     name: 'music-list',
     props: {
@@ -35,22 +43,56 @@
           default: ''
         }
     },
+    data () {
+      return {
+        scrollY: 0
+      }
+    },
+    created() {
+      this.probeType = 3
+      this.listenScroll = true
+    },
     computed: {
       bgStyle () {
         return `background-image: url(${this.bgImage})`
       }
     },
     mounted () {
-      this.$refs.list.$el.style.top = `${this.$refs.bgImage.clientHeight}px`
+       this.imageHeight = this.$refs.bgImage.clientHeight
+      this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
+      // 适配 算出歌单距离顶部的高度
+      this.$refs.list.$el.style.top = `${this.imageHeight}px`
+    },
+    watch: {
+        scrollY (newVal) {
+          let translateY = Math.max(this.minTranslateY, newVal)
+          let zIndex = 0
+          this.$refs.layer.style['transform'] = `translate3d(0,${translateY}px, 0)`
+          this.$refs.layer.style['webkitTransform'] = `translate3d(0,${translateY}px, 0)`
+          if (newVal < this.minTranslateY) {
+            zIndex = 10
+            this.$refs.bgImage.style.paddingTop = 0
+            this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
+          } else {
+            // 这时 z-index是 0
+            this.$refs.bgImage.style.paddingTop = '70%'
+            this.$refs.bgImage.style.height = 0
+          }
+          this.$refs.bgImage.style.zIndex = zIndex
+        }
     },
     methods: {
       back() {
         this.$router.back()
+      },
+      scroll(pos) {
+        this.scrollY = pos.y
       }
     },
     components: {
       Scroll,
-      SongList
+      SongList,
+      Loading
     }
   }
 </script>
@@ -129,6 +171,22 @@
         width: 100%
         height: 100%
         background: rgba(7, 17, 27, 0.4)
-  .song-list-wrapper
-    padding 20px 30px
+    .bg-layer
+      position relative
+      height 100%
+      background $color-background
+    .list
+      position fixed
+      top 0
+      bottom 0
+      width 100%
+      background $color-background
+      /*overflow hidden*/
+      .song-list-wrapper
+        padding 20px 30px
+      .loading-container
+        position absolute
+        width 100%
+        top 50%
+        transform translateY(-50%)
 </style>
