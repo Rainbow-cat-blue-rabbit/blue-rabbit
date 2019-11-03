@@ -5,7 +5,7 @@
       </div>
       <h1 class="title" v-html="title"></h1>
       <div class="bg-image" :style="bgStyle" ref="bgImage">
-        <div class="filter"></div>
+        <div class="filter" ref="filter"></div>
       </div>
       <div class="bg-layer" ref="layer"></div>
       <scroll :data="songs" @scroll="scroll" ref="list" class="list"
@@ -65,20 +65,37 @@
     },
     watch: {
         scrollY (newVal) {
+          // 下拉 正值， 上拉 负值
           let translateY = Math.max(this.minTranslateY, newVal)
           let zIndex = 0
+          let scale = 1
+          let percent = newVal / this.imageHeight
+          let blur = 0 // IPhpne才有
+          if (newVal > 0) {
+            scale = 1 + percent
+            zIndex = 10
+          } else {
+            blur = Math.min(20 * percent, 20)
+          }
+          this.$refs.filter.style['backdrop-filter'] = `blur(${blur}px)`
+          this.$refs.filter.style['webkitBackdrop-filter'] = `blur(${blur}px)`
           this.$refs.layer.style['transform'] = `translate3d(0,${translateY}px, 0)`
           this.$refs.layer.style['webkitTransform'] = `translate3d(0,${translateY}px, 0)`
           if (newVal < this.minTranslateY) {
+            // 上滑
+            console.log(newVal + '~~~~' + this.minTranslateY)
             zIndex = 10
             this.$refs.bgImage.style.paddingTop = 0
             this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
           } else {
-            // 这时 z-index是 0
+            // 这时 z-index是 0， 下滑
             this.$refs.bgImage.style.paddingTop = '70%'
             this.$refs.bgImage.style.height = 0
           }
+          // 上滑的时候必须是 zindex = 10（盖字），下滑无所谓
           this.$refs.bgImage.style.zIndex = zIndex
+          this.$refs.bgImage.style['transform'] = `scale(${scale})`
+          this.$refs.bgImage.style['webkitTransform'] = `scale(${scale})`
         }
     },
     methods: {
