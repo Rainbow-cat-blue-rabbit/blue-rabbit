@@ -7,8 +7,8 @@
       <h1 class="heading">排行</h1>
       <scroll class="toplist">
         <ul>
-          <li v-for="(items, index) in topList" :key="index" >
-            <div v-for="(item, index) in items.toplist" :key="index" class="item">
+          <li v-for="(items, index) in topList" :key="index">
+            <div v-for="(item, index) in items.toplist" :key="index" class="item" @click="selectItem(item)">
               <div class="icon">
                 <img v-lazy="item.frontPicUrl" alt="" width="100" height="100">
               </div>
@@ -25,6 +25,7 @@
           <loading></loading>
         </div>
       </scroll>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -32,6 +33,7 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {getTopList} from 'api/rank'
+  import { mapMutations } from 'vuex'
   export default {
     name: 'rank',
     created () {
@@ -50,7 +52,16 @@
         },
       back() {
         this.$router.back()
-      }
+      },
+      selectItem (item) {
+          this.$router.push({
+            path: `/rank/${item.topId}`
+          })
+        this.setTopList(item)
+      },
+      ...mapMutations({
+        setTopList: 'SET_TOP_LIST'
+      })
     },
     components: {
       Scroll,

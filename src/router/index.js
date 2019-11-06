@@ -12,6 +12,7 @@ import OfficialMore from 'components/Official-more/Official-more'
 import Doyen from 'components/doyen/doyen'
 import LatestAlbum from 'components/latest-album/latest-album'
 import SingerDetail from 'components/singer-detail/singer-detail'
+import TopList from 'components/top-list/top-list'
 Vue.use(Router)
 Vue.use(Cube)
 // 路由组件
@@ -51,7 +52,13 @@ export default new Router({
     },
     {
       path: '/rank',
-      component: Rank
+      component: Rank,
+      children: [
+        {
+          path: ':id',
+          component: TopList
+        }
+      ]
     },
     {
       path: '/sort',

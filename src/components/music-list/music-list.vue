@@ -5,6 +5,12 @@
       </div>
       <h1 class="title" v-html="title"></h1>
       <div class="bg-image" :style="bgStyle" ref="bgImage">
+        <div class="play-wrapper">
+          <div class="play" v-show="songs.length > 0" ref="playBtn">
+            <i class="icon-play"></i>
+            <span class="text">随机播放全部</span>
+          </div>
+        </div>
         <div class="filter" ref="filter"></div>
       </div>
       <div class="bg-layer" ref="layer"></div>
@@ -89,10 +95,12 @@
             zIndex = 10
             this.$refs.bgImage.style.paddingTop = 0
             this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
+            this.$refs.playBtn.style.display = 'none'
           } else {
             // 这时 z-index是 0， 下滑
             this.$refs.bgImage.style.paddingTop = '70%'
             this.$refs.bgImage.style.height = 0
+            this.$refs.playBtn.style.display = ''
           }
           // 上滑的时候必须是 zindex = 10（盖字），下滑无所谓
           this.$refs.bgImage.style.zIndex = zIndex

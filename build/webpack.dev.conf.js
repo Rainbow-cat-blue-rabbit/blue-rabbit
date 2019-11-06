@@ -148,6 +148,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(error)
         })
       })
+      // 获取排行榜单列表详情
+      app.get('/api/getMusicList', function (req, res) {//这里的路径是给前端发送请求的url
+        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        // axios发送get请求，可以自己配置config
+        axios.get(url, {
+          headers: {
+            Referer: 'https://y.qq.com/',
+            host: 'u.y.qq.com'
+          },
+          //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
+          params: req.query,
+        }).then((response) => {
+          res.json(response.data)//返回数据
+        }).catch((error) => {
+          console.log(error)
+        })
+      })
 
     },
     clientLogLevel: 'warning',

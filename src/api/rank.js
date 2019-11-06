@@ -18,3 +18,22 @@ export function getTopList () {
     console.log(error)
   })
 }
+// 获取排行榜单列表详情
+export function getMusicList (topId, period) {
+  const url = '/api/getMusicList'
+  const data = Object.assign({}, commonParams, {
+    g_tk: 5381,
+    hostUin: 0,
+    loginUin: 0,
+    platform: 'yqq.json',
+    needNewCode: 0,
+    data: {'detail': {'module': 'musicToplist.ToplistInfoServer', 'method': 'GetDetail', 'param': {'topId': `${topId}`, 'offset': 0, 'num': 20, 'period': `${period}`}}, 'comm': {'ct': 24, 'cv': 0}}
+  })
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  }).catch((error) => {
+    console.log(error)
+  })
+}
