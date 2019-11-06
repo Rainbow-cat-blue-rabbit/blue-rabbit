@@ -8,7 +8,7 @@
       <scroll ref="scroll" :data="discList" class="recommend-content">
         <div class="recommend-list">
           <ul>
-            <li v-for="(item, index) in discList" class="item" :key="index">
+            <li v-for="(item, index) in discList" class="item" :key="index" @click="selectItem(item)">
               <div class="icon">
                 <img v-lazy="item.imgurl"  width="60" height="60">
               </div>
@@ -20,6 +20,7 @@
           </ul>
         </div>
       </scroll>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -29,6 +30,7 @@
   import { getDiscList } from 'api/recommend'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'sort',
     data () {
@@ -40,6 +42,12 @@
       this._getDiscList()
     },
     methods: {
+      selectItem (item) {
+        this.$router.push({
+          path: `/sort/${item.dissid}`
+        })
+        this.setDiscList(item)
+      },
       _getDiscList () {
         getDiscList().then((res) => {
           if (res.code === ERR_OK) {
@@ -49,7 +57,10 @@
       },
       back() {
         this.$router.back()
-      }
+      },
+      ...mapMutations({
+        setDiscList: 'SET_DISC_LIST'
+      })
     },
     components: {
       Scroll,
