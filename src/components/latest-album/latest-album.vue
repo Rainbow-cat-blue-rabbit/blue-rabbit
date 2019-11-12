@@ -7,7 +7,7 @@
       <h1 class="heading">最新专辑</h1>
       <scroll class="listview" :data="newAlbum" ref="scroll">
         <ul class="list-wrapper">
-          <li v-for="(items, index) in newAlbum" class="list-item" :key="index">
+          <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum" class="list-item" :key="index">
             <div class="icon">
               <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="150" height="150">
             </div>
@@ -27,6 +27,7 @@
   import { getNewAlbum } from 'api/recommend'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'Official-more',
     data () {
@@ -38,6 +39,12 @@
       this._getNewAlbum()
     },
     methods: {
+      selectAlbum (items) {
+        this.$router.push({
+          path: `/recommend/LatestDetail/${items.mid}`
+        })
+        this.setNewAlbum(items)
+      },
       _getNewAlbum () {
         getNewAlbum().then((res) => {
           this.newAlbum = res.new_album.data.albums
@@ -45,7 +52,10 @@
       },
       back() {
         this.$router.back()
-      }
+      },
+      ...mapMutations({
+        setNewAlbum: 'SET_NEWALBUM'
+      })
     },
     components: {
       Scroll,

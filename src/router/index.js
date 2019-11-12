@@ -14,6 +14,9 @@ import LatestAlbum from 'components/latest-album/latest-album'
 import SingerDetail from 'components/singer-detail/singer-detail'
 import TopList from 'components/top-list/top-list'
 import SortDetail from 'components/sort-detail/sort-detail'
+import OfficialDetail from 'components/official-detail/official-detail'
+import DoyenDetail from 'components/doyen-detail/doyen-detail'
+import LatestDetail from 'components/latest-detail/latest-detail'
 Vue.use(Router)
 Vue.use(Cube)
 // 路由组件
@@ -26,7 +29,24 @@ export default new Router({
     {
       path: '/recommend',
       // 首页
-      component: Recommend
+      component: Recommend,
+      children: [
+        {
+          path: '/recommend/OfficialDetail/:tid',
+          name: 'official-detail',
+          component: OfficialDetail
+        },
+        {
+          path: '/recommend/DoyenDetail/:content_id',
+          name: 'doyen-detail',
+          component: DoyenDetail
+        },
+        {
+          path: '/recommend/LatestDetail/:mid',
+          name: 'latest-detail',
+          component: LatestDetail
+        }
+      ]
     },
     {
       path: '/newRecommend',
@@ -35,14 +55,17 @@ export default new Router({
     },
     {
       path: '/search',
+      // 搜索
       component: Search
     },
     {
       path: '/mine',
+      // 个人中心
       component: Mine
     },
     {
       path: '/singer',
+      // 歌手
       component: Singer,
       children: [
         {
@@ -53,6 +76,7 @@ export default new Router({
     },
     {
       path: '/rank',
+      // 排行
       component: Rank,
       children: [
         {
@@ -63,6 +87,7 @@ export default new Router({
     },
     {
       path: '/sort',
+      // 分类
       component: Sort,
       children: [
         {
@@ -73,13 +98,28 @@ export default new Router({
     },
     {
       path: '/Official-more',
-      component: OfficialMore
+      // 官方
+      component: OfficialMore,
+      children: [
+        {
+          path: ':id',
+          component: OfficialDetail
+        }
+      ]
     },
     {
+      // 达人
       path: '/doyen',
-      component: Doyen
+      component: Doyen,
+      children: [
+        {
+          path: ':id',
+          component: DoyenDetail
+        }
+      ]
     },
     {
+      // 最新专辑
       path: '/latestAlbum',
       component: LatestAlbum
     }

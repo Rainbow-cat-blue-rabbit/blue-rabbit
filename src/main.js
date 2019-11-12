@@ -8,11 +8,11 @@ import VueLazyload from 'vue-lazyload'
 import fastclick from 'fastclick' // 解决3毫秒延迟
 import 'common/stylus/index.styl'
 
-// import Router from 'vue-router'
-// const originalPush = Router.prototype.push
-// Router.prototype.push = function push(location) {
-//   return originalPush.call(this, location).catch(err => err)
-// }
+import Router from 'vue-router'
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.config.productionTip = false
 fastclick.attach(document.body)

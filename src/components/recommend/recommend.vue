@@ -57,7 +57,7 @@
           <cube-scroll direction="horizontal" :data="rePlaylist"
                        ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper">
-              <li v-for="(item, index) in rePlaylist.slice(0, 5)" class="list-item item" :key="index">
+              <li @click="selectDoyen(item)" v-for="(item, index) in rePlaylist.slice(0, 5)" class="list-item item" :key="index">
                 <div class="icon">
                   <img v-lazy="item.cover" alt="" width="90" height="90">
                 </div>
@@ -78,7 +78,7 @@
           <cube-scroll direction="horizontal" :data="newAlbum"
                        ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper">
-            <li v-for="(items, index) in newAlbum.slice(0, 5)" class="list-item" :key="index">
+            <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum.slice(0, 5)" class="list-item" :key="index">
               <div class="icon">
                 <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="90" height="90">
               </div>
@@ -94,6 +94,7 @@
       <loading></loading>
     </div>
   </scroll>
+  <router-view></router-view>
 </div>
 </template>
 
@@ -103,6 +104,7 @@
   import Slider from 'base/slider/slider'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'recommend',
     data () {
@@ -130,10 +132,23 @@
       // 点击选中，跳转路由
       selectItem (item) {
         this.$router.push({
-          path: `/Official-more/${item.tid}`
+          path: `/recommend/OfficialDetail/${item.tid}`
         })
+        this.setOfficial(item)
       },
-      // 轮播图--推荐
+      selectDoyen (item) {
+        this.$router.push({
+          path: `/recommend/DoyenDetail/${item.content_id}`
+        })
+        this.setDoyen(item)
+      },
+      selectAlbum (items) {
+        this.$router.push({
+          path: `/recommend/LatestDetail/${items.mid}`
+        })
+        this.setNewAlbum(items)
+      },
+      // 轮播图
       _getRecommend () {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
@@ -161,7 +176,12 @@
         getNewAlbum().then((res) => {
           this.newAlbum = res.new_album.data.albums
         })
-      }
+      },
+      ...mapMutations({
+          setOfficial: 'SET_OFFICIAL',
+          setDoyen: 'SET_DOYEN',
+          setNewAlbum: 'SET_NEWALBUM'
+      })
     },
     components: {
       Slider,

@@ -7,7 +7,7 @@
         <h1 class="heading">达人歌单</h1>
       <scroll class="listview" :data="rePlaylist" ref="scroll">
         <ul class="list-wrapper">
-          <li v-for="(item, index) in rePlaylist" class="list-item item" :key="index">
+          <li @click="selectItemDoyen(item)" v-for="(item, index) in rePlaylist" class="list-item item" :key="index">
             <div class="icon">
               <img v-lazy="item.cover" alt="" width="90" height="90">
             </div>
@@ -29,6 +29,7 @@
   import { getRePlaylist } from 'api/recommend'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'doyen',
     data () {
@@ -40,11 +41,21 @@
       this._getRePlaylist()
     },
     methods: {
+      selectItemDoyen (item) {
+        console.log(item.content_id)
+        this.$router.push({
+          path: `/recommend/DoyenDetail/${item.content_id}`
+        })
+        this.setDoyen(item)
+      },
       _getRePlaylist () {
         getRePlaylist().then((res) => {
           this.rePlaylist = res.recomPlaylist.data.v_hot
         })
       },
+      ...mapMutations({
+        setDoyen: 'SET_DOYEN'
+      }),
       back() {
         this.$router.back()
       }

@@ -8,8 +8,21 @@ const mutations = {
   [types.SET_TOP_LIST](state, topList) {
     state.topList = topList
   },
+  // 分类
   [types.SET_DISC_LIST](state, discList) {
     state.discList = discList
+  },
+  // 官方
+  [types.SET_OFFICIAL](state, playList) {
+    state.playList = playList
+  },
+  // 达人
+  [types.SET_DOYEN](state, rePlaylist) {
+    state.rePlaylist = rePlaylist
+  },
+  // 最新专辑
+  [types.SET_NEWALBUM](state, newAlbum) {
+    state.newAlbum = newAlbum
   }
 }
 export default mutations

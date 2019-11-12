@@ -1,26 +1,26 @@
 <template>
     <transition name="slide">
-      <music-list  :title="title" :bg-image="bgImage" :songs="songs"></music-list>
+      <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
     </transition>
 </template>
 
 <script>
   import MusicList from 'components/music-list/music-list'
   import {mapGetters} from 'vuex'
-  import {getCdList} from 'api/sort'
+  import {getCdInfo} from 'api/official-detail'
   import {createSong} from 'common/js/song'
   import {ERR_OK} from 'api/config'
   export default {
-    name: 'sort-detail',
+    name: 'official-detail',
     computed: {
       title () {
-        return this.discList.dissname
+        return this.playList.title
       },
       bgImage () {
-        return this.discList.imgurl
+        return this.playList.cover_url_big
       },
       ...mapGetters([
-        'discList'
+        'playList'
       ])
     },
     data () {
@@ -29,23 +29,21 @@
       }
     },
     created () {
-      this._getCdList()
+      this._getCdInfo()
     },
     methods: {
-      _getCdList() {
-        // 处理边界
-        if (!this.discList.dissid) {
-          // singer是通过vuex获取的，当我们setSinger的时候才能会获取到
-          this.$router.push('/sort')
+      _getCdInfo() {
+        if (!this.playList.tid) {
+          this.$router.push('/recommend')
           return
         }
-        getCdList(this.discList.dissid).then((res) => {
+        getCdInfo(this.playList.tid).then((res) => {
           if (res.code === ERR_OK) {
             this.songs = this._normalizeSongs(res.cdlist[0].songlist)
           }
         })
       },
-      _normalizeSongs(list) {
+      _normalizeSongs (list) {
         let ret = []
         list.forEach((musicData) => {
           if (musicData.id && musicData.mid) {
@@ -62,8 +60,4 @@
 </script>
 
 <style scoped lang="stylus">
-  .slide-enter-active, &.slide-leave-active
-    transition all 0.3s
-  .slide-enter, &.slide-leave-to
-    transform translate3d(100%, 0, 0)
 </style>

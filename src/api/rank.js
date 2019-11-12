@@ -22,7 +22,7 @@ export function getTopList () {
 export function getMusicList (topId, period) {
   const url = '/api/getMusicList'
   const data = Object.assign({}, commonParams, {
-    g_tk: 5381,
+    g_tk: 2065505414,
     hostUin: 0,
     loginUin: 0,
     platform: 'yqq.json',

@@ -7,7 +7,7 @@
         <h1 class="heading">官方歌单</h1>
       <scroll class="listview" :data="playList" ref="scroll">
         <ul class="list-wrapper" ref="songList">
-          <li v-for="(item, index) in playList" class="list-item" :key="index">
+          <li @click="selectItem(item)" v-for="(item, index) in playList" class="list-item" :key="index">
             <div class="icon">
               <img v-lazy="item.cover_url_big" alt="" width="160" height="160">
             </div>
@@ -19,6 +19,7 @@
           <loading></loading>
         </div>
     </div>
+    <router-view></router-view>
   </transition>
 </template>
 
@@ -26,6 +27,7 @@
   import { getPlayList } from 'api/recommend'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'Official-more',
     data () {
@@ -42,9 +44,19 @@
           this.playList = res.playlist.data.v_playlist
         })
       },
+      // 点击选中，跳转路由
+      selectItem (item) {
+        this.$router.push({
+          path: `/recommend/OfficialDetail/${item.tid}`
+        })
+        this.setOfficial(item)
+      },
       back() {
         this.$router.back()
-      }
+      },
+      ...mapMutations({
+        setOfficial: 'SET_OFFICIAL'
+      })
     },
     components: {
       Scroll,

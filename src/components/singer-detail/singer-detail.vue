@@ -3,7 +3,6 @@
         <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
     </transition>
 </template>
-
 <script>
   import { mapGetters } from 'vuex'
   import { getSingerDetail } from 'api/singer'
@@ -42,8 +41,6 @@
         }
         getSingerDetail(this.singer.singer_mid).then((res) => {
           this.songs = this._normalizeSongs(res.singerSongList.data.songList)
-          // console.log(this.songs)
-           // console.log(res.singerSongList.data.songList)
         })
       },
       _normalizeSongs (songList) {
