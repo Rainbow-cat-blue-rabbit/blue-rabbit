@@ -18,8 +18,8 @@
         <div v-if="!playList.length" class="loading-container">
           <loading></loading>
         </div>
+      <router-view></router-view>
     </div>
-    <router-view></router-view>
   </transition>
 </template>
 
@@ -47,7 +47,7 @@
       // 点击选中，跳转路由
       selectItem (item) {
         this.$router.push({
-          path: `/recommend/OfficialDetail/${item.tid}`
+          path: `/Official-more/${item.tid}`
         })
         this.setOfficial(item)
       },

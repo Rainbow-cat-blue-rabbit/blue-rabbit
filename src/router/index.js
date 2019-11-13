@@ -102,7 +102,8 @@ export default new Router({
       component: OfficialMore,
       children: [
         {
-          path: ':id',
+          path: '/Official-more/:tid',
+          name: 'official-details',
           component: OfficialDetail
         }
       ]
@@ -113,7 +114,7 @@ export default new Router({
       component: Doyen,
       children: [
         {
-          path: ':id',
+          path: '/doyen/:id',
           component: DoyenDetail
         }
       ]
@@ -121,7 +122,13 @@ export default new Router({
     {
       // 最新专辑
       path: '/latestAlbum',
-      component: LatestAlbum
+      component: LatestAlbum,
+      children: [
+        {
+          path: '/latestAlbum/:id',
+          component: LatestDetail
+        }
+      ]
     }
 
   ]

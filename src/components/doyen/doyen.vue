@@ -21,6 +21,7 @@
       <div v-if="!rePlaylist.length" class="loading-container">
         <loading></loading>
       </div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -44,7 +45,7 @@
       selectItemDoyen (item) {
         console.log(item.content_id)
         this.$router.push({
-          path: `/recommend/DoyenDetail/${item.content_id}`
+          path: `/doyen/${item.content_id}`
         })
         this.setDoyen(item)
       },

@@ -19,6 +19,7 @@
       <div v-if="!newAlbum.length" class="loading-container">
         <loading></loading>
       </div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -41,7 +42,7 @@
     methods: {
       selectAlbum (items) {
         this.$router.push({
-          path: `/recommend/LatestDetail/${items.mid}`
+          path: `/latestAlbum/${items.mid}`
         })
         this.setNewAlbum(items)
       },

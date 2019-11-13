@@ -49,7 +49,7 @@
         songList.forEach((item) => {
             let { songInfo } = item
           if (songInfo.id && songInfo.album.mid && songInfo.file.media_mid) {
-            // 创建song实力
+            // 创建song实例
             ret.push(createSong(songInfo))
           }
         })
