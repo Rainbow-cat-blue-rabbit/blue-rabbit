@@ -23,6 +23,25 @@ const mutations = {
   // 最新专辑
   [types.SET_NEWALBUM](state, newAlbum) {
     state.newAlbum = newAlbum
+  },
+
+  [types.SET_PLAYING_STATE] (state, flag) {
+    state.playing = flag
+  },
+  [types.SET_FULL_SCREEN] (state, flag) {
+    state.fullScreen = flag
+  },
+  [types.SET_PLAYLIST1] (state, list) {
+    state.playList1 = list
+  },
+  [types.SET_SECUENCE_LIST] (state, list) {
+    state.sequenceList = list
+  },
+  [types.SET_PLAY_MODE] (state, mode) {
+    state.mode = mode
+  },
+  [types.SET_CURRENT_INDEX] (state, index) {
+    state.currentIndex = index
   }
 }
 export default mutations
