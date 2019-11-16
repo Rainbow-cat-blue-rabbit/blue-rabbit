@@ -8,12 +8,12 @@ export const newAlbum = state => state.newAlbum
 
 export const playing = state => state.playing
 export const fullScreen = state => state.fullScreen
-export const playList1 = state => state.playList1
+export const playlist1 = state => state.playlist1
 export const sequenceList = state => state.sequenceList
 export const mode = state => state.mode
 export const currentIndex = state => state.currentIndex
 
 // getters里面也可以有计算属性
 export const currentSong = (state) => {
-  return state.playList1[state.currentIndex] || {}
+  return state.playlist1[state.currentIndex] || {}
 }
