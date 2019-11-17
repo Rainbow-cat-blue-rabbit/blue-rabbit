@@ -9,7 +9,7 @@ const state = {
 
   playing: false,
   fullScreen: false,
-  playlist1: [],
+  playlist: [],
   sequenceList: [],
   mode: playMode.sequence,
   currentIndex: -1

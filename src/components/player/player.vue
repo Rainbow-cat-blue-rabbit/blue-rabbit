@@ -1,5 +1,5 @@
 <template>
-    <div class="player" v-show="playlist1.length > 0">
+    <div class="player" v-show="playlist.length > 0">
       <transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
         <div class="normal-player" v-show="fullScreen">
         <div class="background">
@@ -32,7 +32,7 @@
               <i class="icon-prev"></i>
             </div>
             <div class="icon i-center">
-              <i class="icon-play"></i>
+              <i class="icon-play"  @click="togglePlaying"></i>
             </div>
             <div class="icon i-right">
               <i class="icon-next"></i>
@@ -59,6 +59,7 @@
         </div>
       </div>
       </transition>
+      <audio ref="audio" :src="currentSong.url"></audio>
     </div>
 </template>
 
@@ -73,8 +74,9 @@
     computed: {
       ...mapGetters([
         'fullScreen',
-        'playlist1',
-        'currentSong'
+        'playlist',
+        'currentSong',
+        'playing'
       ])
     },
     methods: {
@@ -123,6 +125,9 @@
         this.$refs.cdWrapper.style.transition = ''
         this.$refs.cdWrapper.style[transform] = ''
       },
+      togglePlaying () {
+          this.setPlayingState(!this.playing)
+      },
       _getPosAndScale () {
         const targetWidth = 40
         const paddingLeft = 40
@@ -139,8 +144,23 @@
         }
       },
       ...mapMutations({
-        setFullScreen: 'SET_FULL_SCREEN'
+        setFullScreen: 'SET_FULL_SCREEN',
+        setPlayingState: 'SET_PLAYING_STATE'
       })
+    },
+    watch: {
+      currentSong () {
+        this.$nextTick(() => {
+          this.$refs.audio.play()
+        })
+      },
+      playing (newPlaying) {
+        // 监听播放器的 播放 与 暂停，如果播放器是播放 则 playing就是  true，否则是  false
+        const audio = this.$refs.audio
+        this.$nextTick(() => {
+          newPlaying ? audio.play() : audio.pause()
+        })
+      }
     }
   }
 </script>

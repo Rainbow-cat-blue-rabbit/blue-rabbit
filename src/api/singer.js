@@ -38,3 +38,22 @@ export function getSingerDetail (singerMid) {
     console.log(error)
   })
 }
+export function getSingerVkey(songMid) {
+  const url = '/api/getMusic' // 一定要加上/api
+
+  const data = Object.assign({}, commonParams, {
+    loginUin: 0,
+    hostUin: 0,
+    format: 'json',
+    notice: 0,
+    platform: 'yqq.json',
+    needNewCode: 0,
+    data: {'req': {'module': 'CDN.SrfCdnDispatchServer', 'method': 'GetCdnDispatch', 'param': {'guid': '4989877341', 'calltype': 0, 'userip': ''}}, 'req_0': {'module': 'vkey.GetVkeyServer', 'method': 'CgiGetVkey', 'param': {'guid': '4989877341', 'songmid': [`${songMid}`], 'songtype': [0], 'uin': '0', 'loginflag': 1, 'platform': '20'}}, 'comm': {'uin': 0, 'format': 'json', 'ct': 24, 'cv': 0}}
+  })
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    // console.log(res.data)
+    return Promise.resolve(res.data) // 返回一个Promise对象，且直接执行[成功后的回调resolve函数]，抛出res.data数据给then方法作为参数 (供recommend.vue中的_getDiscList方法使用)
+  })
+}

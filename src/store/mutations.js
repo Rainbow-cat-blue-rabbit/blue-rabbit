@@ -31,9 +31,14 @@ const mutations = {
   [types.SET_FULL_SCREEN] (state, flag) {
     state.fullScreen = flag
   },
-  [types.SET_PLAYLIST1] (state, list) {
-    state.playlist1 = list
+  [types.SET_PLAYLIST] (state, list) {
+    state.playlist = list
   },
+  // [types.SET_PLAYLIST_URL](state, keyUrl) {
+  //   let index = keyUrl.index
+  //   let url = keyUrl.url
+  //   state.playlist[index].url = url
+  // },
   [types.SET_SECUENCE_LIST] (state, list) {
     state.sequenceList = list
   },

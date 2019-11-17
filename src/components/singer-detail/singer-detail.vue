@@ -5,7 +5,7 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import { getSingerDetail } from 'api/singer'
+  import { getSingerDetail, getSingerVkey } from 'api/singer'
   import { createSong } from 'common/js/song'
   import MusicList from 'components/music-list/music-list'
   export default {
@@ -50,7 +50,12 @@
             let { songInfo } = item
           if (songInfo.id && songInfo.album.mid && songInfo.file.media_mid) {
             // 创建song实例
-            ret.push(createSong(songInfo))
+            getSingerVkey(songInfo.mid).then((res) => {
+              let songVkey = res.req_0.data.midurlinfo[0].purl
+              const newSong = createSong(songInfo, songVkey)
+              ret.push(newSong)
+            })
+            // ret.push(createSong(songInfo))
           }
         })
         return ret

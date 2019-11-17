@@ -131,6 +131,22 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(error)
         })
       })
+      // 获取歌曲url接口
+      app.get('/api/getMusic', function (req, res) {
+        // 页面中引用，请求地址一定要加上/api，没加上一直报404错误(找了好久没发现原来，郁闷)
+        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.get(url, { // 此处axios是运行在node.js中，所以此处发的是http请求而不是xhr请求
+          headers: { // 修改header骗过浏览器referer和host如下
+            origin: 'https://y.qq.com',
+            referer: 'https://y.qq.com/portal/player.html'
+          },
+          params: req.query,
+        }).then((response) => {
+          res.json(response.data) // 发送response.data给客户端
+        }).catch((err) => {
+          console.log(err)
+        })
+      })
       // 排行
       app.get('/api/getTopList', function (req, res) {//这里的路径是给前端发送请求的url
         let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
