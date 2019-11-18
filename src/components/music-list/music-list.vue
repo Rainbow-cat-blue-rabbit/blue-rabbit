@@ -117,14 +117,6 @@
         this.scrollY = pos.y
       },
       selectItem (item, index) {
-        // getSingerVkey(item.singer_mid).then((vkey) => {
-        //   let url = `http://dl.stream.qqmusic.qq.com/${vkey}`
-        //   this.setPlaylistUrl({
-        //     index,
-        //     url
-        //   })
-        // })
-
         this.selectPlay({
           list: this.songs,
           index

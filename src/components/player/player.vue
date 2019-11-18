@@ -16,7 +16,7 @@
         <div class="middle">
           <div class="middle-l">
             <div class="cd-wrapper" ref="cdWrapper">
-              <div class="cd">
+              <div class="cd" :class="cdCls">
                 <img :src="currentSong.image" alt="" class="image">
               </div>
             </div>
@@ -24,18 +24,25 @@
         </div>
 
         <div class="bottom">
+          <div class="progress-wrapper">
+            <span class="time time-l">{{format(currentTime)}}</span>
+            <div class="progress-bar-wrapper">
+              <progress-bar></progress-bar>
+            </div>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
+          </div>
           <div class="operators">
             <div class="icon i-left">
               <i class="icon-sequence"></i>
             </div>
-            <div class="icon i-left">
-              <i class="icon-prev"></i>
+            <div class="icon i-left" :class="disableCls">
+              <i class="icon-prev" @click="prev"></i>
             </div>
-            <div class="icon i-center">
-              <i class="icon-play"  @click="togglePlaying"></i>
+            <div class="icon i-center" :class="disableCls">
+              <i :class="playIcon"  @click="togglePlaying"></i>
             </div>
-            <div class="icon i-right">
-              <i class="icon-next"></i>
+            <div class="icon i-right" :class="disableCls">
+              <i class="icon-next" @click="next"></i>
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -47,7 +54,7 @@
       <transition name="mini">
         <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-          <img :src="currentSong.image" alt="" width="40" height="40">
+          <img :class="cdCls" :src="currentSong.image" alt="" width="40" height="40">
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
@@ -55,28 +62,48 @@
         </div>
         <div class="control"></div>
         <div class="control">
-          <i class="icon-playlist"></i>
+          <i @click.stop="togglePlaying" :class="miniIcon"></i>
         </div>
       </div>
       </transition>
-      <audio ref="audio" :src="currentSong.url"></audio>
+<!--      防止点击过快 ready error-->
+      <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime"></audio>
     </div>
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
   import animations from 'create-keyframe-animation'
-  import {prefixStyle} from 'common/js/dom'
-
+  import { prefixStyle } from 'common/js/dom'
+  import ProgressBar from 'base/progress-bar/progress-bar'
   const transform = prefixStyle('transform')
   export default {
     name: 'player',
+    data () {
+      return {
+        songReady: false,
+        currentTime: 0
+      }
+    },
     computed: {
+      disableCls () {
+        return this.songReady ? '' : 'disable'
+      },
+      playIcon () {
+        return this.playing ? 'icon-pause' : 'icon-play'
+      },
+      miniIcon () {
+        return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+      },
+      cdCls () {
+        return this.playing ? 'play' : 'play pause'
+      },
       ...mapGetters([
         'fullScreen',
         'playlist',
         'currentSong',
-        'playing'
+        'playing',
+        'currentIndex'
       ])
     },
     methods: {
@@ -126,7 +153,10 @@
         this.$refs.cdWrapper.style[transform] = ''
       },
       togglePlaying () {
-          this.setPlayingState(!this.playing)
+        if (!this.songReady) {
+          return
+        }
+        this.setPlayingState(!this.playing)
       },
       _getPosAndScale () {
         const targetWidth = 40
@@ -143,9 +173,63 @@
           scale
         }
       },
+      ready () {
+        this.songReady = true
+      },
+      error () {
+        this.songReady = true
+      },
+      updateTime (e) {
+        this.currentTime = e.target.currentTime
+      },
+      format (interval) {
+         interval = interval | 0
+        // | 0 向下取整，同 Object.Math.floor()
+         let minute = interval / 60 | 0
+         let second = this._pad(interval % 60)
+         return `${minute}:${second}`
+      },
+      // 补0函数
+      _pad (num, n = 2) {
+        let len = num.toString().length
+        while (len < n) {
+          num = '0' + num
+          len++
+        }
+        return num
+      },
+      next () {
+        if (!this.songReady) {
+          return
+        }
+        let index = this.currentIndex + 1
+        if (index === this.playlist.length) {
+          index = 0
+        }
+        this.setCurrentIndex(index)
+        if (!this.playing) {
+          this.togglePlaying()
+        }
+        this.songReady = false
+      },
+      prev () {
+        if (!this.songReady) {
+          return
+        }
+        let index = this.currentIndex - 1
+        if (index === -1) {
+          index = this.playlist.length - 1
+        }
+        this.setCurrentIndex(index)
+        if (!this.playing) {
+          this.togglePlaying()
+        }
+        this.songReady = false
+      },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
-        setPlayingState: 'SET_PLAYING_STATE'
+        setPlayingState: 'SET_PLAYING_STATE',
+        setCurrentIndex: 'SET_CURRENT_INDEX'
       })
     },
     watch: {
@@ -161,6 +245,9 @@
           newPlaying ? audio.play() : audio.pause()
         })
       }
+    },
+    components: {
+      ProgressBar
     }
   }
 </script>
@@ -304,7 +391,7 @@
         margin: 0px auto
         padding: 10px 0
         .time
-          color: $color-text
+          color: $color-text1
           font-size: $font-size-small
           flex: 0 0 30px
           line-height: 30px
@@ -381,7 +468,7 @@
         margin-bottom: 2px
         no-wrap()
         font-size: $font-size-medium
-        color: $color-text
+        color: $color-text1
       .desc
         no-wrap()
         font-size: $font-size-small

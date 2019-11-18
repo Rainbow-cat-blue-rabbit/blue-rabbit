@@ -34,11 +34,6 @@ const mutations = {
   [types.SET_PLAYLIST] (state, list) {
     state.playlist = list
   },
-  // [types.SET_PLAYLIST_URL](state, keyUrl) {
-  //   let index = keyUrl.index
-  //   let url = keyUrl.url
-  //   state.playlist[index].url = url
-  // },
   [types.SET_SECUENCE_LIST] (state, list) {
     state.sequenceList = list
   },
