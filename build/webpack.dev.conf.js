@@ -147,6 +147,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(err)
         })
       })
+      // 获取歌词
+      app.get('/api/getLyric', function (req, res) {
+        let url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
+        axios.get(url, { // 此处axios是运行在node.js中，所以此处发的是http请求而不是xhr请求
+          headers: { // 修改header骗过浏览器referer和host如下
+            origin: 'https://y.qq.com',
+            referer: 'https://y.qq.com/portal/player.html'
+          },
+          params: req.query,
+        }).then((response) => {
+          res.json(response.data) // 发送response.data给客户端
+        }).catch((err) => {
+          console.log(err)
+        })
+      })
       // 排行
       app.get('/api/getTopList', function (req, res) {//这里的路径是给前端发送请求的url
         let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'

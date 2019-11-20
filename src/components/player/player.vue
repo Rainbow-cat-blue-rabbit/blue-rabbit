@@ -21,6 +21,16 @@
               </div>
             </div>
           </div>
+          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
+            <div class="lyric-wrapper">
+              <div v-if="currentLyric">
+                <p ref="lyricLine"
+                   class="text"
+                   :class="{'current': currentLineNumber === index}"
+                   v-for="(line,index) in currentLyric.lines" :key="index">{{line.txt}}</p>
+              </div>
+            </div>
+          </scroll>
         </div>
 
         <div class="bottom">
@@ -81,6 +91,8 @@
   import {shuffle} from 'common/js/util'
   import ProgressBar from 'base/progress-bar/progress-bar'
   import ProgressCircle from 'base/progress-circle/progress-circle'
+  import Lyric from 'lyric-parser'
+  import Scroll from 'base/scroll/scroll'
   const transform = prefixStyle('transform')
   export default {
     name: 'player',
@@ -88,7 +100,9 @@
       return {
         songReady: false,
         currentTime: 0,
-        radius: 32
+        radius: 32,
+        currentLyric: null,
+        currentLineNumber: 0
       }
     },
     computed: {
@@ -223,6 +237,25 @@
         })
         this.setCurrentIndex(index)
       },
+      getLyric() {
+        this.currentSong.getLyric().then((lyric) => {
+          this.currentLyric = new Lyric(lyric, this.handleLyric)
+          if (this.playing) {
+            this.currentLyric.play()
+          }
+          console.log(this.currentLyric)
+        })
+      },
+      // 当前歌词高亮
+      handleLyric (lineNum, txt) {
+        this.currentLineNumber = lineNum
+        if (lineNum > 5) {
+          let lineEl = this.$refs.lyricLine[lineNum - 5]
+          this.$refs.lyricList.scrollToElement(lineEl, 1000)
+        } else {
+          this.$refs.lyricList.scrollToElement(0, 0, 1000)
+        }
+      },
       // 补0函数
       _pad (num, n = 2) {
         let len = num.toString().length
@@ -292,6 +325,7 @@
         }
         this.$nextTick(() => {
           this.$refs.audio.play()
+          this.getLyric()
         })
       },
       playing (newPlaying) {
@@ -304,7 +338,8 @@
     },
     components: {
       ProgressBar,
-      ProgressCircle
+      ProgressCircle,
+      Scroll
     }
   }
 </script>
@@ -418,10 +453,10 @@
           text-align: center
           .text
             line-height: 32px
-            color: $color-text-l
+            color: $color-text
             font-size: $font-size-medium
             &.current
-              color: $color-text
+              color: $color-text1
     .bottom
       position: absolute
       bottom: 50px
