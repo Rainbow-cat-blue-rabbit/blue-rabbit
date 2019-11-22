@@ -157,7 +157,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           },
           params: req.query,
         }).then((response) => {
-          res.json(response.data) // 发送response.data给客户端
+          let ret = response.data
+          if (typeof ret === 'string') {
+            let reg = /^\w+\(({[^()]+})\)$/
+            let matches = ret.match(reg)
+            if (matches) {
+              ret = JSON.parse(matches[1])
+            }
+          }
+          res.json(ret)
         }).catch((err) => {
           console.log(err)
         })

@@ -13,27 +13,36 @@
           <h2 class="subtitle" v-html="currentSong.singer"></h2>
         </div>
 
-        <div class="middle">
-          <div class="middle-l">
+        <div class="middle"
+             @touchstart.prevent=middleTouchStart
+             @touchmove.prevent=middleTouchMove
+             @touchend=middleTouchEnd>
+          <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" :class="cdCls">
                 <img :src="currentSong.image" alt="" class="image">
               </div>
             </div>
           </div>
-          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
-            <div class="lyric-wrapper">
-              <div v-if="currentLyric">
-                <p ref="lyricLine"
-                   class="text"
-                   :class="{'current': currentLineNumber === index}"
-                   v-for="(line,index) in currentLyric.lines" :key="index">{{line.txt}}</p>
+          <scroll class="middle-r" ref="lyricList"  :data="currentLyric && currentLyric.lines">
+            <div ref="lyricList1" :data="currentLyric && currentLyric.lines">
+              <div class="lyric-wrapper">
+                <div v-if="currentLyric">
+                  <p ref="lyricLine"
+                     class="text"
+                     :class="{'current': currentLineNum === index}"
+                     v-for="(line,index) in currentLyric.lines" :key="line.time">{{line.txt}}</p>
+                </div>
               </div>
             </div>
           </scroll>
         </div>
 
         <div class="bottom">
+          <div class="dot-wrapper">
+            <span class="dot" :class="{'active' : currentShow === 'cd'}"></span>
+            <span class="dot" :class="{'active' : currentShow === 'lyric'}"></span>
+          </div>
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
@@ -94,6 +103,7 @@
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
   const transform = prefixStyle('transform')
+  const transitionDuration = prefixStyle('transitionDuration')
   export default {
     name: 'player',
     data () {
@@ -102,7 +112,8 @@
         currentTime: 0,
         radius: 32,
         currentLyric: null,
-        currentLineNumber: 0
+        currentLineNum: 0,
+        currentShow: 'cd'
       }
     },
     computed: {
@@ -133,6 +144,9 @@
         'mode',
         'sequenceList'
       ])
+    },
+    created () {
+      this.touch = {}
     },
     methods: {
       back() {
@@ -243,18 +257,74 @@
           if (this.playing) {
             this.currentLyric.play()
           }
-          console.log(this.currentLyric)
+           console.log(this.currentLyric)
         })
       },
       // 当前歌词高亮
-      handleLyric (lineNum, txt) {
-        this.currentLineNumber = lineNum
+      handleLyric ({lineNum, txt}) {
+        this.currentLineNum = lineNum
         if (lineNum > 5) {
           let lineEl = this.$refs.lyricLine[lineNum - 5]
-          this.$refs.lyricList.scrollToElement(lineEl, 1000)
+          this.$refs.lyricList1.scrollTo(lineEl, 1000)
         } else {
-          this.$refs.lyricList.scrollToElement(0, 0, 1000)
+          // 如果小于5，则滚动制顶部
+          this.$refs.lyricList1.scrollTo(0, 0, 1000)
         }
+      },
+      middleTouchStart (e) {
+        this.touch.initiated = true
+        const touch = e.touches[0]
+        this.touch.startX = touch.pageX
+        this.touch.startY = touch.pageY
+      },
+      middleTouchMove (e) {
+        if (!this.touch.initiated) {
+          return
+        }
+        const touch = e.touches[0]
+        const deltaX = touch.pageX - this.touch.startX
+        const deltaY = touch.pageY - this.touch.startY
+        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+          return
+        }
+        const left = this.currentShow === 'cd' ? '0' : -window.innerWidth
+        const offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + deltaX))
+        this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
+        this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
+        this.$refs.lyricList.$el.style[transitionDuration] = 0
+        this.$refs.middleL.style.opacity = 1 - this.touch.percent
+        this.$refs.middleL.style[transitionDuration] = 0
+      },
+      middleTouchEnd () {
+        let offsetWidth
+        let opacity
+        if (this.currentShow === 'cd') {
+          if (this.touch.percent > 0.1) {
+            offsetWidth = -window.innerWidth
+            opacity = 0
+            this.currentShow = 'lyric'
+            console.log('middleTouchEnd1')
+          } else {
+            offsetWidth = 0
+            opacity = 1
+          }
+        } else {
+          if (this.touch.percent < 0.9) {
+            offsetWidth = 0
+            this.currentShow = 'cd'
+            opacity = 1
+            console.log('middleTouchEnd2')
+          } else {
+            offsetWidth = -window.innerWidth
+            opacity = 0
+          }
+        }
+        const time = 300
+        this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
+        this.$refs.lyricList.$el.style[transitionDuration] = `${time}ms`
+        this.$refs.middleL.style.opacity = opacity
+        this.$refs.middleL.style[transitionDuration] = `${time}ms`
+        console.log('middleTouchEnd3')
       },
       // 补0函数
       _pad (num, n = 2) {
@@ -323,9 +393,12 @@
         if (newSong.id === oldSong.id) {
           return
         }
+        if (this.currentLyric) {
+          this.currentLyric.stop()
+        }
         this.$nextTick(() => {
-          this.$refs.audio.play()
           this.getLyric()
+          this.$refs.audio.play()
         })
       },
       playing (newPlaying) {
@@ -471,7 +544,7 @@
           width: 8px
           height: 8px
           border-radius: 50%
-          background: $color-text-l
+          background: $color-time
           &.active
             width: 20px
             border-radius: 5px
