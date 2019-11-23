@@ -102,6 +102,7 @@
   import ProgressCircle from 'base/progress-circle/progress-circle'
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
+
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
   export default {
@@ -253,11 +254,17 @@
       },
       getLyric() {
         this.currentSong.getLyric().then((lyric) => {
+          if (this.currentSong.lyric !== lyric) {
+            return
+          }
           this.currentLyric = new Lyric(lyric, this.handleLyric)
           if (this.playing) {
             this.currentLyric.play()
           }
-           console.log(this.currentLyric)
+        }).catch(() => {
+          this.currentLyric = null
+          this.playingLyric = ''
+          this.currentLineNum = 0
         })
       },
       // 当前歌词高亮
@@ -270,6 +277,7 @@
           // 如果小于5，则滚动制顶部
           this.$refs.lyricList1.scrollTo(0, 0, 1000)
         }
+        // this.playingLyric = txt
       },
       middleTouchStart (e) {
         this.touch.initiated = true
@@ -295,7 +303,7 @@
         this.$refs.middleL.style.opacity = 1 - this.touch.percent
         this.$refs.middleL.style[transitionDuration] = 0
       },
-      middleTouchEnd () {
+      middleTouchEnd() {
         let offsetWidth
         let opacity
         if (this.currentShow === 'cd') {
@@ -303,7 +311,6 @@
             offsetWidth = -window.innerWidth
             opacity = 0
             this.currentShow = 'lyric'
-            console.log('middleTouchEnd1')
           } else {
             offsetWidth = 0
             opacity = 1
@@ -313,18 +320,17 @@
             offsetWidth = 0
             this.currentShow = 'cd'
             opacity = 1
-            console.log('middleTouchEnd2')
           } else {
             offsetWidth = -window.innerWidth
             opacity = 0
           }
         }
         const time = 300
-        this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
+        this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px,0,0)`
         this.$refs.lyricList.$el.style[transitionDuration] = `${time}ms`
         this.$refs.middleL.style.opacity = opacity
         this.$refs.middleL.style[transitionDuration] = `${time}ms`
-        console.log('middleTouchEnd3')
+        this.touch.initiated = false
       },
       // 补0函数
       _pad (num, n = 2) {

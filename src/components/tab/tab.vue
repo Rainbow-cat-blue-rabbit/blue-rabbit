@@ -3,7 +3,7 @@
       <router-link tag="div" class="tab-item" to="/recommend">
         <span class="tab-link">首页</span>
       </router-link>
-      <router-link tag="div" class="tab-item" to="/newRecommend">
+      <router-link tag="div" class="tab-item" to="/Official-more">
         <span class="tab-link">推荐</span>
       </router-link>
       <router-link tag="div" class="tab-item" to="/search">

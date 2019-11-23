@@ -39,11 +39,11 @@ export function createSong (songInfo, songVkey) {
     album: songInfo.album.name,
     duration: songInfo.interval,
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${songInfo.album.mid}.jpg?max_age=2592000`,
-    url: `http://aqqmusic.tc.qq.com/amobile.music.tc.qq.com/${songVkey}`
+    url: `http://ws.stream.qqmusic.qq.com/${songVkey}`
   })
 }
 
- function filterSinger (singer) {
+export function filterSinger (singer) {
   let ret = []
   if (!singer) {
     return ''

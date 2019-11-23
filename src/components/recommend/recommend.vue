@@ -37,7 +37,7 @@
           <cube-scroll direction="horizontal" :data="playList"
              ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper" ref="songList">
-              <li @click="selectItem(item)" v-for="(item, index) in playList.slice(0, 5)" class="list-item" :key="index">
+              <li @click="selectItem(item)" v-for="(item, index) in playList.slice(0, 6)" class="list-item" :key="index">
                 <div class="icon">
                   <img v-lazy="item.cover_url_big" alt="" width="90" height="90">
                 </div>
@@ -57,7 +57,7 @@
           <cube-scroll direction="horizontal" :data="rePlaylist"
                        ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper">
-              <li @click="selectDoyen(item)" v-for="(item, index) in rePlaylist.slice(0, 5)" class="list-item item" :key="index">
+              <li @click="selectDoyen(item)" v-for="(item, index) in rePlaylist.slice(0, 6)" class="list-item item" :key="index">
                 <div class="icon">
                   <img v-lazy="item.cover" alt="" width="90" height="90">
                 </div>
@@ -78,7 +78,7 @@
           <cube-scroll direction="horizontal" :data="newAlbum"
                        ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper">
-            <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum.slice(0, 5)" class="list-item" :key="index">
+            <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum.slice(0, 6)" class="list-item" :key="index">
               <div class="icon">
                 <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="90" height="90">
               </div>

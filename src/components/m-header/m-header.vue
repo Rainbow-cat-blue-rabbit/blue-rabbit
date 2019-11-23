@@ -1,16 +1,21 @@
 <template>
   <div class="m-header">
     <div class="text">蓝兔音乐</div>
-    <div class="iptBox">
-      <input type="text" placeholder="听你想听" class="ipt">
-      <i class="icon-search"></i>
+    <div class="iptBox" @click="search">
+        <input type="text" placeholder="听你想听" class="ipt">
+        <i class="icon-search"></i>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'm-header.vue'
+  name: 'm-header.vue',
+  methods: {
+    search () {
+      this.$router.replace('/search')
+    }
+  }
 }
 </script>
 
