@@ -42,7 +42,6 @@ export function createSong (songInfo, songVkey) {
     url: `http://ws.stream.qqmusic.qq.com/${songVkey}`
   })
 }
-
 export function filterSinger (singer) {
   let ret = []
   if (!singer) {

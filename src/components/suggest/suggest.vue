@@ -1,5 +1,9 @@
 <template>
-    <div class="suggest">
+    <scroll class="suggest"
+            :data="result"
+            :pullup="pullup"
+            @scrollEnd="searchMore"
+    >
       <ul class="suggest-list">
         <li class="suggest-item" v-for="(item,index) in result" :key="index">
           <div class="icon">
@@ -9,15 +13,19 @@
             <p class="text" v-html="getDisplayName(item)"></p>
           </div>
         </li>
+        <Loading v-show="hasMore" title=" "></Loading>
       </ul>
-    </div>
+    </scroll>
 </template>
 
 <script>
   import {search} from 'api/search'
   import {ERR_OK} from 'api/config'
   import {filterSinger} from 'common/js/song'
+  import Scroll from 'base/scroll/scroll'
+  import Loading from 'base/loading/loading'
   const TYPE_SINGER = 'singer'
+  const perpage = 20
   export default {
     name: 'suggest',
     props: {
@@ -33,15 +41,31 @@
     data () {
       return {
         page: 1,
-        result: []
+        result: [],
+        pullup: true,
+        hasMore: false
       }
     },
     methods: {
       search () {
-        search(this.query, this.page, this.showSinger).then((res) => {
+        this.hasMore = true
+        search(this.query, this.page, this.showSinger, perpage).then((res) => {
             if (res.code === ERR_OK) {
               this.result = this._getResult(res.data)
+              this._checkMore(res.data)
             }
+        })
+      },
+      searchMore () {
+        if (!this.hasMore) {
+          return
+        }
+        this.page++
+        search(this.query, this.page, this.showSinger, perpage).then((res) => {
+          if (res.code === ERR_OK) {
+            this.result = this.result.concat(this._getResult(res.data))
+            this._checkMore(res.data)
+          }
         })
       },
       getIconCls (item) {
@@ -57,6 +81,12 @@
         } else {
           return `${item.songname}-${filterSinger(item.singer)}`
         }
+      },
+      _checkMore (data) {
+          const song = data.song
+          if (!song.list.length || (song.curpage * perpage + song.curnum) >= song.totalnum) {
+            this.hasMore = false
+          }
       },
       _getResult (data) {
         let ret = []
@@ -75,6 +105,10 @@
       query () {
         this.search()
       }
+    },
+    components: {
+      Scroll,
+      Loading
     }
   }
 </script>
