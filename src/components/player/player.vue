@@ -14,9 +14,9 @@
         </div>
 
         <div class="middle"
-             @touchstart.prevent=middleTouchStart
-             @touchmove.prevent=middleTouchMove
-             @touchend=middleTouchEnd>
+             @touchstart.prevent="middleTouchStart"
+             @touchmove.prevent="middleTouchMove"
+             @touchend="middleTouchEnd">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" :class="cdCls">

@@ -54,11 +54,6 @@ export default new Router({
       component: NewRecommend
     },
     {
-      path: '/search',
-      // 搜索
-      component: Search
-    },
-    {
       path: '/mine',
       // 个人中心
       component: Mine
@@ -70,6 +65,19 @@ export default new Router({
       children: [
         {
           path: ':id',
+          component: SingerDetail
+        }
+      ]
+    },
+    {
+      path: '/search',
+      // 搜索
+      name: 'Search',
+      component: Search,
+      children: [
+        {
+          path: ':id',
+          name: 'SearchDetail',
           component: SingerDetail
         }
       ]

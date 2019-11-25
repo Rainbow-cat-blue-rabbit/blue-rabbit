@@ -3,9 +3,10 @@
             :data="result"
             :pullup="pullup"
             @scrollEnd="searchMore"
+
     >
-      <ul class="suggest-list">
-        <li class="suggest-item" v-for="(item,index) in result" :key="index">
+      <ul class="suggest-list" ref="suggest">
+        <li @click="selectItem(item)" class="suggest-item" v-for="(item,index) in result" :key="index">
           <div class="icon">
             <i :class="getIconCls(item)"></i>
           </div>
@@ -24,6 +25,8 @@
   import {filterSinger} from 'common/js/song'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import Singer from 'common/js/singer'
+  import {mapMutations, mapActions} from 'vuex'
   const TYPE_SINGER = 'singer'
   const perpage = 20
   export default {
@@ -48,7 +51,10 @@
     },
     methods: {
       search () {
+        this.page = 1
         this.hasMore = true
+        // 暂时有问题
+        this.$refs.suggest.scrollTo(0, 0)
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
             if (res.code === ERR_OK) {
               this.result = this._getResult(res.data)
@@ -67,6 +73,21 @@
             this._checkMore(res.data)
           }
         })
+      },
+      selectItem (item) {
+          if (item.type === TYPE_SINGER) {
+            const singer = new Singer({
+              id: item.singermid,
+              name: item.singername
+            })
+            this.$router.push({
+              path: `/search/${singer.id}`
+            })
+
+            this.setSinger(singer)
+          } else {
+            this.insertSong(item)
+          }
       },
       getIconCls (item) {
         if (item.type === TYPE_SINGER) {
@@ -99,7 +120,13 @@
           ret = ret.concat(data.song.list)
         }
         return ret
-      }
+      },
+      ...mapMutations({
+        setSinger: 'SET_SINGER'
+      }),
+      ...mapActions([
+        'insertSong'
+      ])
     },
     watch: {
       query () {

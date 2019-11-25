@@ -5,7 +5,7 @@
         <i class="icon-back"></i>
       </div>
       <h1 class="heading">歌手</h1>
-      <list-view @select="selectSinger" :data="singers"></list-view>
+      <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
       <router-view></router-view>
     </div>
   </transition>
