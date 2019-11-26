@@ -1,5 +1,5 @@
 # 欢迎来到我的蓝兔音乐
- 基于 Vue(2.5) + vuex + vue-router + vue-axios +better-scroll + Scss + ES6 等开发一款移动端音乐App，UI 界面参考了安卓版的QQ音乐、flex 布局适配常见移动端。
+ 基于 Vue(2.5) + vuex + vue-router + vue-axios +better-scroll + Scss + ES6 等开发一款移动端音乐WebApp，UI 界面参考了安卓版的QQ音乐、flex 布局适配常见移动端。
 ## 部分图片预览
 <div margin="20px auto">
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/1.png" width = "300" height = "100%"/>
