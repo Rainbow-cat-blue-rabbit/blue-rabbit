@@ -5,6 +5,7 @@
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/2.png" width = "300" height = "100%"/>
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/3.png" width = "300" height = "100%"/>
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/4.png" width = "300" height = "100%"/>
+
 ## 开发目的
 通过学习开发一个 Vue 项目，让自己更熟练的使用 Vue、熟悉模块化开发的思想、更好的运用 ES6 等知识，提高自己的技术能力
 ## 实现的功能:
