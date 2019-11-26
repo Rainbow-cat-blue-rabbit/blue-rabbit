@@ -1,10 +1,14 @@
 # 欢迎来到我的蓝兔音乐
  基于 Vue(2.5) + vuex + vue-router + vue-axios +better-scroll + Scss + ES6 等开发一款移动端音乐App，UI 界面参考了安卓版的QQ音乐、flex 布局适配常见移动端。
 ## 部分图片预览
+<div>
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/1.png" width = "300" height = "100%"/>
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/2.png" width = "300" height = "100%"/>
+</div>
+<div>
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/3.png" width = "300" height = "100%"/>
 <img src="https://github.com/Rainbow-cat-blue-rabbit/blue-rabbit/blob/master/doc/4.png" width = "300" height = "100%"/>
+</div>
 
 ## 开发目的
 通过学习开发一个 Vue 项目，让自己更熟练的使用 Vue、熟悉模块化开发的思想、更好的运用 ES6 等知识，提高自己的技术能力
