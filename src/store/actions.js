@@ -1,16 +1,23 @@
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-26 10:51:16
+ * @LastEditTime: 2021-04-12 17:57:15
+ * @Description:
+ */
 // 1.异步  2.封装mutation
 import * as types from './mutation-types'
-import {playMode} from 'common/js/config'
-import {shuffle} from 'common/js/util'
+import { playMode } from 'common/js/config'
+import { shuffle } from 'common/js/util'
 
 // 当在提交多个mutation时，我们往往会封装一个actions
-function findIndex (list, song) {
+function findIndex(list, song) {
   return list.findIndex((item) => {
     return item.id === song.id
   })
 }
-
-export const selectPlay = function ({commit, state}, {list, index}) {
+// 选择播放
+export const selectPlay = function ({ commit, state }, { list, index }) {
+  // 提交一系列mutations
   commit(types.SET_SECUENCE_LIST, list)
   if (state.mode === playMode.random) {
     let randomList = shuffle(list)
@@ -24,7 +31,7 @@ export const selectPlay = function ({commit, state}, {list, index}) {
   commit(types.SET_PLAYING_STATE, true)
 }
 // 随机播放
-export const randomPlay = function ({commit}, {list}) {
+export const randomPlay = function ({ commit }, { list }) {
   commit(types.SET_PLAY_MODE, playMode.random)
   commit(types.SET_SECUENCE_LIST, list)
   let randomList = shuffle(list)
@@ -33,7 +40,7 @@ export const randomPlay = function ({commit}, {list}) {
   commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PLAYING_STATE, true)
 }
-export const insertSong = function ({commit, state}, song) {
+export const insertSong = function ({ commit, state }, song) {
   let playlist = state.playlist.slice() // （副本）浅拷贝 ：拷贝之后各个值的指针还是指向相同的存储地址
   let sequenceList = state.sequenceList.slice()
   let currentIndex = state.currentIndex

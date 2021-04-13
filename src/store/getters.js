@@ -1,3 +1,9 @@
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-26 10:51:34
+ * @LastEditTime: 2021-04-12 17:20:10
+ * @Description:
+ */
 // 映射， 从getters取数据到组件中
 export const singer = state => state.singer
 export const topList = state => state.topList

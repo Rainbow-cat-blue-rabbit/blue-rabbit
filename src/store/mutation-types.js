@@ -1,3 +1,9 @@
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-26 10:51:01
+ * @LastEditTime: 2021-04-12 17:55:20
+ * @Description:
+ */
 // 定义一些字符串常量
 export const SET_SINGER = 'SET_SINGER'
 export const SET_TOP_LIST = 'SET_TOP_LIST'

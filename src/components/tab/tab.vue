@@ -1,3 +1,9 @@
+<!--
+ * @Author: JaneChelle
+ * @Date: 2019-10-24 14:53:02
+ * @LastEditTime: 2021-04-11 17:08:07
+ * @Description:
+-->
 <template>
     <div class="tab">
       <router-link tag="div" class="tab-item" to="/recommend">
@@ -10,7 +16,7 @@
         <span class="tab-link">搜索</span>
       </router-link>
       <router-link tag="div" class="tab-item" to="/mine">
-        <span class="tab-link">我的</span>
+        <span class="tab-link">收藏</span>
       </router-link>
     </div>
 </template>

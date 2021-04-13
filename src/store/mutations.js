@@ -1,3 +1,9 @@
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-26 10:49:53
+ * @LastEditTime: 2021-04-12 17:22:27
+ * @Description:
+ */
 // 定义修改的操作
 import * as types from './mutation-types'
 // mutation 是一个修改对象的方法， mutatinos 里面定义一些修改的方法
@@ -25,22 +31,22 @@ const mutations = {
     state.newAlbum = newAlbum
   },
 
-  [types.SET_PLAYING_STATE] (state, flag) {
+  [types.SET_PLAYING_STATE](state, flag) {
     state.playing = flag
   },
-  [types.SET_FULL_SCREEN] (state, flag) {
+  [types.SET_FULL_SCREEN](state, flag) {
     state.fullScreen = flag
   },
-  [types.SET_PLAYLIST] (state, list) {
+  [types.SET_PLAYLIST](state, list) {
     state.playlist = list
   },
   [types.SET_SECUENCE_LIST] (state, list) {
     state.sequenceList = list
   },
-  [types.SET_PLAY_MODE] (state, mode) {
+  [types.SET_PLAY_MODE](state, mode) {
     state.mode = mode
   },
-  [types.SET_CURRENT_INDEX] (state, index) {
+  [types.SET_CURRENT_INDEX](state, index) {
     state.currentIndex = index
   }
 }
