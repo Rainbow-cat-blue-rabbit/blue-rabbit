@@ -24,7 +24,7 @@
           <img src="../../assets/sort.png" width="25" height="25">
           <div class="tag">歌单</div>
         </router-link>
-      </div>  -->
+      </div> -->
       <div class="recommend-list">
 <!--   1.     官方歌单-->
         <div>
