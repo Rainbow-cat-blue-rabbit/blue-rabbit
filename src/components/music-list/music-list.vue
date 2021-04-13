@@ -70,7 +70,7 @@
       }
     },
     mounted () {
-       this.imageHeight = this.$refs.bgImage.clientHeight
+      this.imageHeight = this.$refs.bgImage.clientHeight
       this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
       // 适配 算出歌单距离顶部的高度
       this.$refs.list.$el.style.top = `${this.imageHeight}px`

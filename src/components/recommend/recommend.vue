@@ -11,7 +11,7 @@
           </div>
         </slider>
       </div>
-      <div class="module">
+      <!-- <div class="module">
         <router-link class="module-item" to="/singer">
           <img src="../../assets/singer.png" width="25" height="25">
           <div class="tag">歌手</div>
@@ -20,11 +20,11 @@
           <img src="../../assets/rank.png" width="25" height="25">
           <div class="tag">排行</div>
         </router-link>
-        <router-link class="module-item" to="/sort">
+        <router-link class="module-item" to="/Official-more">
           <img src="../../assets/sort.png" width="25" height="25">
-          <div class="tag">分类</div>
+          <div class="tag">歌单</div>
         </router-link>
-      </div>
+      </div> -->
       <div class="recommend-list">
 <!--   1.     官方歌单-->
         <div>
