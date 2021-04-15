@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-24 15:55:29
- * @LastEditTime: 2021-04-15 10:11:13
+ * @LastEditTime: 2021-04-15 10:16:46
  * @Description:
 -->
 <template>
@@ -80,7 +80,6 @@
         white-space nowrap
         line-height 40px
         font-size 18px
-        color $color-theme
     .mine-result
       position: fixed
       width: 100%
