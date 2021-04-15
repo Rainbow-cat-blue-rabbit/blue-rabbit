@@ -1,16 +1,18 @@
 <template>
-<div class="search">
-  <div class="search-box-wrapper">
-    <div class="back" @click="back">
-      <i class="icon-back"></i>
+<transition name="slide">
+  <div class="search">
+    <div class="search-box-wrapper">
+      <div class="back" @click="back">
+        <i class="icon-back"></i>
+      </div>
+      <search-box @query="onChangeQuery"></search-box>
     </div>
-    <search-box @query="onChangeQuery"></search-box>
+    <div class="search-result">
+      <suggest :query="query"></suggest>
+    </div>
+    <router-view></router-view>
   </div>
-  <div class="search-result">
-    <suggest :query="query"></suggest>
-  </div>
-  <router-view></router-view>
-</div>
+</transition>
 </template>
 
 <script>
@@ -53,6 +55,10 @@
     z-index: 100
     overflow: hidden
     background: #f9f9f9
+    &.slide-enter-active, &.slide-leave-active
+      transition all 0.3s
+    &.slide-enter, &.slide-leave-to
+      transform translate3d(100%, 0, 0)
     .search-box-wrapper
       margin: 20px
       display flex

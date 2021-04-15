@@ -7,16 +7,17 @@ import Mine from 'components/mine/mine'
 import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
 import Rank from 'components/rank/rank'
-import Sort from 'components/sort/sort'
+// import Sort from 'components/sort/sort'
 import OfficialMore from 'components/Official-more/Official-more'
 import Doyen from 'components/doyen/doyen'
 import LatestAlbum from 'components/latest-album/latest-album'
 import SingerDetail from 'components/singer-detail/singer-detail'
 import TopList from 'components/top-list/top-list'
-import SortDetail from 'components/sort-detail/sort-detail'
+// import SortDetail from 'components/sort-detail/sort-detail'
 import OfficialDetail from 'components/official-detail/official-detail'
 import DoyenDetail from 'components/doyen-detail/doyen-detail'
 import LatestDetail from 'components/latest-detail/latest-detail'
+import Login from 'components/login/login'
 Vue.use(Router)
 Vue.use(Cube)
 // 路由组件
@@ -70,6 +71,10 @@ export default new Router({
       ]
     },
     {
+      path: '/login',
+      component: Login
+    },
+    {
       path: '/search',
       // 搜索
       name: 'Search',
@@ -93,17 +98,17 @@ export default new Router({
         }
       ]
     },
-    {
-      path: '/sort',
-      // 分类
-      component: Sort,
-      children: [
-        {
-          path: ':id',
-          component: SortDetail
-        }
-      ]
-    },
+    // {
+    //   path: '/sort',
+    //   // 分类
+    //   component: Sort,
+    //   children: [
+    //     {
+    //       path: ':id',
+    //       component: SortDetail
+    //     }
+    //   ]
+    // },
     {
       path: '/Official-more',
       // 官方
@@ -138,6 +143,5 @@ export default new Router({
         }
       ]
     }
-
   ]
 })

@@ -5,6 +5,9 @@
         <input type="text" placeholder="听你想听" class="ipt">
         <i class="icon-search"></i>
     </div>
+    <router-link class="user" to="login">
+      <span class="icon-mine"></span>
+    </router-link>
   </div>
 </template>
 
@@ -27,6 +30,7 @@ export default {
     height: 44px
     line-height 44px
     display flex
+    justify-content: space-between
     padding 0 20px
     .text
       color: black
@@ -52,4 +56,9 @@ export default {
         &::-webkit-input-placeholder
           color: #333;
           font-size: 12px;
+    .user
+      .icon-mine
+        font-size: 20px;
+        color: #00a0dc;
+
 </style>
