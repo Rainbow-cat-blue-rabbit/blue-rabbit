@@ -1,7 +1,7 @@
 /*
  * @Author: JaneChelle
  * @Date: 2019-10-26 10:49:53
- * @LastEditTime: 2021-04-12 17:22:27
+ * @LastEditTime: 2021-04-16 10:37:52
  * @Description:
  */
 // 定义修改的操作
@@ -40,7 +40,7 @@ const mutations = {
   [types.SET_PLAYLIST](state, list) {
     state.playlist = list
   },
-  [types.SET_SECUENCE_LIST] (state, list) {
+  [types.SET_SECUENCE_LIST](state, list) {
     state.sequenceList = list
   },
   [types.SET_PLAY_MODE](state, mode) {
@@ -48,6 +48,18 @@ const mutations = {
   },
   [types.SET_CURRENT_INDEX](state, index) {
     state.currentIndex = index
+  },
+  [types.LOGIN_STATUS](state, flag) {
+    if (state.Authorization) {
+      state.isLogin = flag
+      localStorage.setItem('isLogin', state.isLogin)
+    }
+  },
+  [types.CHANGE_STATUS](state, user) {
+    if (state.Authorization) {
+      state.Authorization = user.Authorization
+      localStorage.setItem('Authorization', user.Authorization)
+    }
   }
 }
 export default mutations

@@ -1,7 +1,7 @@
 /*
  * @Author: JaneChelle
  * @Date: 2019-10-26 10:51:34
- * @LastEditTime: 2021-04-12 17:20:10
+ * @LastEditTime: 2021-04-15 22:14:21
  * @Description:
  */
 // 映射， 从getters取数据到组件中
@@ -18,6 +18,7 @@ export const playlist = state => state.playlist
 export const sequenceList = state => state.sequenceList
 export const mode = state => state.mode
 export const currentIndex = state => state.currentIndex
+export const isLogin = state => state.isLogin
 
 // getters里面也可以有计算属性
 export const currentSong = (state) => {

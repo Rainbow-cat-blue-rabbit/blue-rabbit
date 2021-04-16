@@ -1,8 +1,8 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2021-04-13 15:40:58
- * @LastEditTime: 2021-04-14 11:13:49
- * @Description:登录页面
+ * @LastEditTime: 2021-04-16 11:02:27
+ * @Description: 登录注册页面
 -->
 <template>
 <transition name="slide">
@@ -18,15 +18,15 @@
         <span @click="toRegister" :class="{active : showRegister === true}">注册</span>
       </div>
       <div class="login-box" v-show="showLogin">
-        <input type="text" placeholder="手机号">
-        <input type="password" placeholder="密码">
-        <button class="sumbit">登 录</button>
+        <input type="text" placeholder="手机号" v-model="ruleForm.phone">
+        <input type="password" placeholder="密码" v-model="ruleForm.password">
+        <button class="sumbit" @click="login">登 录</button>
       </div>
       <div class="register-box" v-show="showRegister">
-        <input type="text" placeholder="昵称">
-        <input type="text" placeholder="手机号">
-        <input type="password" placeholder="密码">
-        <button class="sumbit">注 册</button>
+        <input type="text" placeholder="昵称" v-model="ruleForm.name">
+        <input type="text" placeholder="手机号" v-model="ruleForm.phone">
+        <input type="password" placeholder="密码" v-model="ruleForm.password">
+        <button class="sumbit" @click="register">注 册</button>
       </div>
     </div>
   </div>
@@ -39,8 +39,13 @@
     },
     data () {
       return {
-        showRegister: true,
-        showLogin: false
+        showRegister: false,
+        showLogin: true,
+        ruleForm: {
+          password: '',
+          phone: '',
+          name: ''
+        }
       }
     },
     methods: {
@@ -54,6 +59,51 @@
       },
       back() {
         this.$router.replace('/recommend')
+      },
+      login() {
+        let params = {
+          phone: this.ruleForm.phone,
+          password: this.ruleForm.password
+        }
+        this.$axios.post('http://localhost:10019/user/login', params).then((res) => {
+          console.log(res)
+          if (res.status === 200) {
+            if (res.data.code === 0) {
+              this.$message.error(res.data.msg)
+            } else if (res.data.code === 1) {
+              this.$store.dispatch('isLogin', true)
+              localStorage.setItem('Flag', 'isLogin')
+              this.$message.success(res.data.msg)
+              this.$router.replace('/recommend')
+            }
+          }
+        }).catch(function(err) {
+          this.$message.error(err)
+      })
+      },
+      register() {
+        let params = {
+          name: this.ruleForm.name,
+          phone: this.ruleForm.phone,
+          password: this.ruleForm.password
+        }
+        this.$axios.post('http://localhost:10019/user/register', params).then((res) => {
+          console.log(res)
+          if (res.status === 200) {
+            if (res.data.code === 0) {
+              this.$message({
+                message: res.data.msg
+              })
+            } else if (res.data.code === 1) {
+              this.$message({
+                type: 'success',
+                message: res.data.msg
+              })
+            }
+          }
+        }).catch(function(err) {
+          this.$message.error(err)
+      })
       }
     },
     components: {

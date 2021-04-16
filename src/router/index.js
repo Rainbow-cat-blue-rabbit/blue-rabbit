@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Cube from 'cube-ui'
 import Router from 'vue-router'
 import Recommend from 'components/recommend/recommend'
-import NewRecommend from 'components/newRecommend/newRecommend'
+// import NewRecommend from 'components/newRecommend/newRecommend'
 import Mine from 'components/mine/mine'
 import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
@@ -25,12 +25,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/recommend' // 首页
+      redirect: '/recommend'
     },
     {
       path: '/recommend',
       // 首页
       component: Recommend,
+      meta: {
+        isLogin: false
+      },
       children: [
         {
           path: '/recommend/OfficialDetail/:tid',
@@ -50,16 +53,6 @@ export default new Router({
       ]
     },
     {
-      path: '/newRecommend',
-      // 推荐
-      component: NewRecommend
-    },
-    {
-      path: '/mine',
-      // 个人中心
-      component: Mine
-    },
-    {
       path: '/singer',
       // 歌手
       component: Singer,
@@ -68,17 +61,53 @@ export default new Router({
           path: ':id',
           component: SingerDetail
         }
+      ],
+      meta: {
+        isLogin: false
+      }
+    },
+    {
+      path: '/rank',
+      // 排行
+      component: Rank,
+      meta: {
+        isLogin: false
+      },
+      children: [
+        {
+          path: ':id',
+          component: TopList
+        }
       ]
+    },
+    // {
+    //   path: '/newRecommend',
+    //   // 推荐
+    //   component: NewRecommend
+    // },
+    {
+      path: '/mine',
+      // 收藏
+      component: Mine,
+      meta: {
+        isLogin: true
+      }
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        isLogin: false
+      }
     },
     {
       path: '/search',
       // 搜索
       name: 'Search',
       component: Search,
+      meta: {
+        isLogin: false
+      },
       children: [
         {
           path: ':id',
@@ -88,31 +117,12 @@ export default new Router({
       ]
     },
     {
-      path: '/rank',
-      // 排行
-      component: Rank,
-      children: [
-        {
-          path: ':id',
-          component: TopList
-        }
-      ]
-    },
-    // {
-    //   path: '/sort',
-    //   // 分类
-    //   component: Sort,
-    //   children: [
-    //     {
-    //       path: ':id',
-    //       component: SortDetail
-    //     }
-    //   ]
-    // },
-    {
       path: '/Official-more',
       // 官方
       component: OfficialMore,
+      meta: {
+        isLogin: false
+      },
       children: [
         {
           path: '/Official-more/:tid',
@@ -125,6 +135,9 @@ export default new Router({
       // 达人
       path: '/doyen',
       component: Doyen,
+      meta: {
+        isLogin: false
+      },
       children: [
         {
           path: '/doyen/:id',
@@ -136,6 +149,9 @@ export default new Router({
       // 最新专辑
       path: '/latestAlbum',
       component: LatestAlbum,
+      meta: {
+        isLogin: false
+      },
       children: [
         {
           path: '/latestAlbum/:id',

@@ -11,20 +11,6 @@
           </div>
         </slider>
       </div>
-      <!-- <div class="module">
-        <router-link class="module-item" to="/singer">
-          <img src="../../assets/singer.png" width="25" height="25">
-          <div class="tag">歌手</div>
-        </router-link>
-        <router-link class="module-item" to="/rank">
-          <img src="../../assets/rank.png" width="25" height="25">
-          <div class="tag">排行</div>
-        </router-link>
-        <router-link class="module-item" to="/Official-more">
-          <img src="../../assets/sort.png" width="25" height="25">
-          <div class="tag">歌单</div>
-        </router-link>
-      </div> -->
       <div class="recommend-list">
 <!--   1.     官方歌单-->
         <div>
@@ -35,7 +21,7 @@
             </router-link>
           </div>
           <cube-scroll direction="horizontal" :data="playList"
-             ref="scroll" class="horizontal-scroll-list-wrap">
+            ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper" ref="songList">
               <li @click="selectItem(item)" v-for="(item, index) in playList.slice(0, 6)" class="list-item" :key="index">
                 <div class="icon">
@@ -55,7 +41,7 @@
             </router-link>
           </div>
           <cube-scroll direction="horizontal" :data="rePlaylist"
-                       ref="scroll" class="horizontal-scroll-list-wrap">
+                ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper">
               <li @click="selectDoyen(item)" v-for="(item, index) in rePlaylist.slice(0, 6)" class="list-item item" :key="index">
                 <div class="icon">
@@ -76,7 +62,7 @@
             </router-link>
           </div>
           <cube-scroll direction="horizontal" :data="newAlbum"
-                       ref="scroll" class="horizontal-scroll-list-wrap">
+                    ref="scroll" class="horizontal-scroll-list-wrap">
             <ul class="list-wrapper">
             <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum.slice(0, 6)" class="list-item" :key="index">
               <div class="icon">
@@ -244,7 +230,7 @@
             padding 0 10px 10px 0
             .icon
               img
-               border-radius 5px
+              border-radius 5px
             .s-title
               font-size 12px
           .title
