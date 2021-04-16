@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2021-04-13 15:40:58
- * @LastEditTime: 2021-04-16 20:30:03
+ * @LastEditTime: 2021-04-16 21:27:33
  * @Description: 登录注册页面
 -->
 <template>
@@ -10,6 +10,9 @@
     <div class="login-box-wrapper">
       <div class="back" @click="back">
         <i class="icon-back"></i>
+      </div>
+      <div class="out" @click="signOut">
+        <img src="../../assets/out.png" alt="">
       </div>
     </div>
     <div class="container">
@@ -66,6 +69,10 @@ import {mapMutations} from 'vuex'
       back() {
         this.$router.replace('/recommend')
       },
+      signOut() {
+        localStorage.clear()
+        this.$message.success('已退出登录')
+      },
       login() {
         var that = this
         let params = {
@@ -85,9 +92,6 @@ import {mapMutations} from 'vuex'
               that.userToken = res.data.data
               that.setChangeLogin(that.userToken)
               that.setLoginStatus(true)
-              console.log(localStorage.getItem('Authorization'))
-              console.log(window.localStorage.getItem('isLogin'))
-              console.log(that.$store.state)
               that.$router.push('/recommend')
               that.$message({
                 message: res.data.msg,
@@ -163,6 +167,14 @@ import {mapMutations} from 'vuex'
           padding: 10px
           font-size: 22px
           color: #00a0dc
+      .out
+        position absolute
+        right 5px
+        padding 10px
+        z-index 50
+        img
+          width 20px
+          height 20px
   .container
     margin: 20% 10%
     .toggle
