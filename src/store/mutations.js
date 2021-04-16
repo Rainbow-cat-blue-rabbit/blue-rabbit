@@ -1,7 +1,7 @@
 /*
  * @Author: JaneChelle
  * @Date: 2019-10-26 10:49:53
- * @LastEditTime: 2021-04-16 10:37:52
+ * @LastEditTime: 2021-04-16 20:47:37
  * @Description:
  */
 // 定义修改的操作
@@ -49,17 +49,15 @@ const mutations = {
   [types.SET_CURRENT_INDEX](state, index) {
     state.currentIndex = index
   },
-  [types.LOGIN_STATUS](state, flag) {
+  [types.LoginStatus](state, flag) {
     if (state.Authorization) {
       state.isLogin = flag
       localStorage.setItem('isLogin', state.isLogin)
     }
   },
-  [types.CHANGE_STATUS](state, user) {
-    if (state.Authorization) {
-      state.Authorization = user.Authorization
-      localStorage.setItem('Authorization', user.Authorization)
-    }
+  [types.changeLogin](state, user) {
+    state.Authorization = user
+    localStorage.setItem('Authorization', user)
   }
 }
 export default mutations

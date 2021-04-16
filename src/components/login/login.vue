@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2021-04-13 15:40:58
- * @LastEditTime: 2021-04-16 11:02:27
+ * @LastEditTime: 2021-04-16 20:30:03
  * @Description: 登录注册页面
 -->
 <template>
@@ -33,6 +33,7 @@
 </transition>
 </template>
 <script>
+import {mapMutations} from 'vuex'
   export default {
     name: 'login',
     created () {
@@ -41,6 +42,7 @@
       return {
         showRegister: false,
         showLogin: true,
+        userToken: '',
         ruleForm: {
           password: '',
           phone: '',
@@ -49,6 +51,10 @@
       }
     },
     methods: {
+      ...mapMutations({
+        setLoginStatus: 'LoginStatus',
+        setChangeLogin: 'changeLogin'
+      }),
       toLogin() {
         this.showRegister = false
         this.showLogin = true
@@ -61,48 +67,69 @@
         this.$router.replace('/recommend')
       },
       login() {
+        var that = this
         let params = {
-          phone: this.ruleForm.phone,
-          password: this.ruleForm.password
+          phone: that.ruleForm.phone,
+          password: that.ruleForm.password
         }
-        this.$axios.post('http://localhost:10019/user/login', params).then((res) => {
+        that.$axios.post('http://localhost:10019/user/login', params).then((res) => {
           console.log(res)
           if (res.status === 200) {
             if (res.data.code === 0) {
-              this.$message.error(res.data.msg)
+              that.$message({
+                message: res.data.msg,
+                type: 'error',
+                showClose: true
+            })
             } else if (res.data.code === 1) {
-              this.$store.dispatch('isLogin', true)
-              localStorage.setItem('Flag', 'isLogin')
-              this.$message.success(res.data.msg)
-              this.$router.replace('/recommend')
+              that.userToken = res.data.data
+              that.setChangeLogin(that.userToken)
+              that.setLoginStatus(true)
+              console.log(localStorage.getItem('Authorization'))
+              console.log(window.localStorage.getItem('isLogin'))
+              console.log(that.$store.state)
+              that.$router.push('/recommend')
+              that.$message({
+                message: res.data.msg,
+                type: 'success',
+                showClose: true
+              })
             }
           }
         }).catch(function(err) {
-          this.$message.error(err)
+          that.$message({
+              message: err,
+              type: 'error',
+              showClose: true
+          })
       })
       },
       register() {
+        var that = this
         let params = {
-          name: this.ruleForm.name,
-          phone: this.ruleForm.phone,
-          password: this.ruleForm.password
+          name: that.ruleForm.name,
+          phone: that.ruleForm.phone,
+          password: that.ruleForm.password
         }
-        this.$axios.post('http://localhost:10019/user/register', params).then((res) => {
+        that.$axios.post('http://localhost:10019/user/register', params).then((res) => {
           console.log(res)
           if (res.status === 200) {
             if (res.data.code === 0) {
-              this.$message({
+              that.$message({
                 message: res.data.msg
               })
             } else if (res.data.code === 1) {
-              this.$message({
+              that.$message({
                 type: 'success',
                 message: res.data.msg
               })
             }
           }
         }).catch(function(err) {
-          this.$message.error(err)
+          that.$message({
+                type: 'error',
+                message: err
+          })
       })
       }
     },

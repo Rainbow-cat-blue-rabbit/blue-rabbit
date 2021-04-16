@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   } else {
     if (to.meta.requiresAuth && !localStorage.getItem('Authorization')) {
       // 下一跳路由需要登录验证，并且还未登录，则路由定向到  登录路由
-      next('/lgin')
+      next('/login')
     } else {
       // 如果不需要登录验证，或者已经登录成功，则直接放行
       next()

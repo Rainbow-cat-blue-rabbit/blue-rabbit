@@ -31,9 +31,6 @@ export default new Router({
       path: '/recommend',
       // 首页
       component: Recommend,
-      meta: {
-        isLogin: false
-      },
       children: [
         {
           path: '/recommend/OfficialDetail/:tid',
@@ -61,18 +58,12 @@ export default new Router({
           path: ':id',
           component: SingerDetail
         }
-      ],
-      meta: {
-        isLogin: false
-      }
+      ]
     },
     {
       path: '/rank',
       // 排行
       component: Rank,
-      meta: {
-        isLogin: false
-      },
       children: [
         {
           path: ':id',
@@ -90,24 +81,18 @@ export default new Router({
       // 收藏
       component: Mine,
       meta: {
-        isLogin: true
+        requiresAuth: true
       }
     },
     {
       path: '/login',
-      component: Login,
-      meta: {
-        isLogin: false
-      }
+      component: Login
     },
     {
       path: '/search',
       // 搜索
       name: 'Search',
       component: Search,
-      meta: {
-        isLogin: false
-      },
       children: [
         {
           path: ':id',
@@ -120,9 +105,6 @@ export default new Router({
       path: '/Official-more',
       // 官方
       component: OfficialMore,
-      meta: {
-        isLogin: false
-      },
       children: [
         {
           path: '/Official-more/:tid',
@@ -135,9 +117,6 @@ export default new Router({
       // 达人
       path: '/doyen',
       component: Doyen,
-      meta: {
-        isLogin: false
-      },
       children: [
         {
           path: '/doyen/:id',
@@ -149,9 +128,6 @@ export default new Router({
       // 最新专辑
       path: '/latestAlbum',
       component: LatestAlbum,
-      meta: {
-        isLogin: false
-      },
       children: [
         {
           path: '/latestAlbum/:id',
