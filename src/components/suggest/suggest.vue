@@ -22,7 +22,7 @@
 <script>
   import {search} from 'api/search'
   import {ERR_OK} from 'api/config'
-  import {filterSinger} from 'common/js/song'
+  // import {filterSinger} from 'common/js/song'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import Singer from 'common/js/singer'
@@ -55,10 +55,12 @@
         this.hasMore = true
         // 暂时有问题
         this.$refs.suggest.scrollTo(0, 0)
-        search(this.query, this.page, this.showSinger, perpage).then((res) => {
-            if (res.code === ERR_OK) {
-              this.result = this._getResult(res.data)
-              this._checkMore(res.data)
+        search(this.query).then((res) => {
+          console.log(res)
+            if (res.code === 1) {
+              this.result = res.data
+              console.log(this.result)
+              // this._checkMore(res.data)
             }
         })
       },
@@ -98,9 +100,9 @@
       },
       getDisplayName (item) {
         if (item.type === TYPE_SINGER) {
-          return item.singername
+          return item.singerName
         } else {
-          return `${item.songname}-${filterSinger(item.singer)}`
+          return `${item.musicName}-${item.singerName}`
         }
       },
       _checkMore (data) {

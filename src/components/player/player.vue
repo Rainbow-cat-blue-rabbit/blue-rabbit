@@ -90,7 +90,9 @@
       </div>
       </transition>
 <!--      防止点击过快 ready error-->
-      <audio ref="audio" :src="currentSong.audio" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+      <!-- <audio ref="audio" src="http://localhost:10019/upload/music/十年/audio1a04430c-fdbc-4100-8c5a-8474b5314ecb.mp3
+" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio> -->
+      <audio ref="audio" :src="`${baseUrl}` + currentSong.audio" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     </div>
 </template>
 
@@ -104,6 +106,7 @@
   import ProgressCircle from 'base/progress-circle/progress-circle'
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
+  import {baseUrl} from '../../common/js/config'
 
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
@@ -116,7 +119,8 @@
         radius: 32,
         currentLyric: null,
         currentLineNum: 0,
-        currentShow: 'cd'
+        currentShow: 'cd',
+        baseUrl
       }
     },
     computed: {
@@ -133,6 +137,7 @@
         return this.playing ? 'play' : 'play pause'
       },
       percent () {
+        console.log(this.currentSong.audio)
         return this.currentTime / this.currentSong.duration
       },
       iconMode () {
