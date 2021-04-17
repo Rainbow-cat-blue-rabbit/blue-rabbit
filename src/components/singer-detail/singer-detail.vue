@@ -1,3 +1,9 @@
+<!--
+ * @Author: JaneChelle
+ * @Date: 2019-10-26 09:52:45
+ * @LastEditTime: 2021-04-17 21:16:52
+ * @Description:
+-->
 <template>
     <transition name="slide">
         <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
@@ -5,7 +11,7 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import { getSingerDetail, getSingerVkey } from 'api/singer'
+  import { getSingerDetail } from 'api/singer'
   import { createSong } from 'common/js/song'
   import MusicList from 'components/music-list/music-list'
   export default {
@@ -34,29 +40,29 @@
     methods: {
       _getSingerDetail () {
         // 处理边界
-        if (!this.singer.singer_mid) {
+        if (!this.singer.singer_id) {
           // singer是通过vuex获取的，当我们setSinger的时候才能会获取到
           this.$router.push('/singer')
           return
         }
-        getSingerDetail(this.singer.singer_mid).then((res) => {
-          this.songs = this._normalizeSongs(res.singerSongList.data.songList)
+        getSingerDetail(this.singer.singer_id).then((res) => {
+          console.log(res)
+          this.songs = this._normalizeSongs(res.data)
         })
       },
       _normalizeSongs (songList) {
         let ret = []
         // 精简代码
         songList.forEach((item) => {
-            let { songInfo } = item
-          if (songInfo.id && songInfo.album.mid && songInfo.file.media_mid) {
-            // 创建song实例
-            getSingerVkey(songInfo.mid).then((res) => {
-              let songVkey = res.req_0.data.midurlinfo[0].purl
-              const newSong = createSong(songInfo, songVkey)
-              ret.push(newSong)
-            })
+          console.log(item)
+            // let { songInfo } = item
+            let songInfo = item
+          if (songInfo.singerId && songInfo.musicId && songInfo.audio) {
+            const newSong = createSong(songInfo)
+            ret.push(newSong)
           }
         })
+        console.log(ret)
         return ret
       }
     },

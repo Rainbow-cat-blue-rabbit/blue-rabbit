@@ -2,10 +2,10 @@
     <scroll class="listview" :data="data">
         <ul>
           <li @click="selectItem(item)" v-for="(item, index) in data" class="list-group-item" :key="index">
-              <img v-lazy="item.singer_pic"  width="60" height="60" class="avatar">
+              <img v-lazy="`${baseUrl}` + item.singer_pic" width="60" height="60" class="avatar">
               <span v-html="item.singer_name" class="name"></span>
           </li>
-        </ul>
+          </ul>
         <div v-show="!data.length" class="loading-container">
           <loading></loading>
         </div>
@@ -15,8 +15,14 @@
 <script>
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
+  import {baseUrl} from '../../common/js/config'
   export default {
     name: 'listview',
+    data() {
+      return {
+        baseUrl
+      }
+    },
     props: {
       data: {
         type: Array,

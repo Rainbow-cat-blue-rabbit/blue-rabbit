@@ -1,19 +1,24 @@
-import {getLyric} from 'api/song'
-import {ERR_OK} from 'api/config'
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-29 15:32:40
+ * @LastEditTime: 2021-04-17 21:25:44
+ * @Description:
+ */
+import { getLyric } from 'api/song'
+import { ERR_OK } from 'api/config'
 import { Base64 } from 'js-base64'
 export default class Song {
   // 封装对象
-  constructor ({id, mid, singer, name, album, duration, image, url}) {
-    this.id = id
-    this.mid = mid
-    this.name = name
-    this.singer = singer
-    this.album = album
+  constructor({ singerId, musicId, singerName, musicName, duration, image, audio }) {
+    this.singerId = singerId
+    this.musicId = musicId
+    this.musicName = musicName
+    this.singerName = singerName
     this.duration = duration
     this.image = image
-    this.url = url
+    this.audio = audio
   }
-  getLyric () {
+  getLyric() {
     if (this.lyric) {
       return Promise.resolve(this.lyric)
     }
@@ -30,25 +35,24 @@ export default class Song {
   }
 }
 // 工厂方法
-export function createSong (songInfo, songVkey) {
+export function createSong(songInfo) {
   return new Song({
-    id: songInfo.id,
-    mid: songInfo.mid,
-    name: songInfo.name,
-    singer: filterSinger(songInfo.singer),
-    album: songInfo.album.name,
-    duration: songInfo.interval,
-    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${songInfo.album.mid}.jpg?max_age=2592000`,
-    url: `http://ws.stream.qqmusic.qq.com/${songVkey}`
+    singerId: songInfo.singerId,
+    musicId: songInfo.musicId,
+    musicName: songInfo.musicName,
+    singerName: songInfo.singerName,
+    duration: songInfo.updateTime - songInfo.createTime,
+    image: songInfo.musicImages,
+    audio: songInfo.audio
   })
 }
-export function filterSinger (singer) {
+export function filterSinger(singer) {
   let ret = []
   if (!singer) {
     return ''
   }
   singer.forEach((s) => {
-    ret.push(s.name)
+    ret.push(s.singerName)
   })
   return ret.join('/')
 }

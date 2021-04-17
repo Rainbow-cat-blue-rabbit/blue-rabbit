@@ -10,8 +10,8 @@
           <div class="back" @click="back">
             <i class="icon-back"></i>
           </div>
-          <h1 class="title" v-html="currentSong.name"></h1>
-          <h2 class="subtitle" v-html="currentSong.singer"></h2>
+          <h1 class="title" v-html="currentSong.musicName"></h1>
+          <h2 class="subtitle" v-html="currentSong.singerName"></h2>
         </div>
 
         <div class="middle"
@@ -78,8 +78,8 @@
           <img :class="cdCls" :src="currentSong.image" alt="" width="40" height="40">
         </div>
         <div class="text">
-          <h2 class="name" v-html="currentSong.name"></h2>
-          <p class="desc" v-html="currentSong.singer"></p>
+          <h2 class="name" v-html="currentSong.musicName"></h2>
+          <p class="desc" v-html="currentSong.singerName"></p>
         </div>
         <div class="control"></div>
         <div class="control">
@@ -90,7 +90,7 @@
       </div>
       </transition>
 <!--      防止点击过快 ready error-->
-      <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+      <audio ref="audio" :src="currentSong.audio" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     </div>
 </template>
 

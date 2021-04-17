@@ -1,6 +1,12 @@
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-24 14:53:02
+ * @LastEditTime: 2021-04-17 20:44:11
+ * @Description:
+ */
 import { commonParams } from './config'
- import axios from 'axios'
-export function getSingerList () {
+import axios from 'axios'
+export function getSingerList() {
   const url = '/api/getSingerList'
   const data = Object.assign({}, commonParams, {
     g_tk: 87063419,
@@ -8,7 +14,7 @@ export function getSingerList () {
     hostUin: 0,
     platform: 'yqq.json',
     needNewCode: 0,
-    data: {'comm': {'ct': 24, 'cv': 0}, 'singerList': {'module': 'Music.SingerListServer', 'method': 'get_singer_list', 'param': {'area': -100, 'sex': -100, 'genre': -100, 'index': -100, 'sin': 0, 'cur_page': 1}}}
+    data: { 'comm': { 'ct': 24, 'cv': 0 }, 'singerList': { 'module': 'Music.SingerListServer', 'method': 'get_singer_list', 'param': { 'area': -100, 'sex': -100, 'genre': -100, 'index': -100, 'sin': 0, 'cur_page': 1 } } }
   })
   return axios.get(url, {
     params: data
@@ -19,7 +25,7 @@ export function getSingerList () {
   })
 }
 // 歌手详情
-export function getSingerDetail (singerMid) {
+export function getSingerDetail(singerId) {
   const url = '/api/getSingerDetail'
   const data = Object.assign({}, commonParams, {
     g_tk: 499021157,
@@ -28,7 +34,8 @@ export function getSingerDetail (singerMid) {
     format: 'json',
     platform: 'yqq.json',
     needNewCode: 0,
-    data: {'comm': {'ct': 24, 'cv': 0}, 'singerSongList': {'method': 'GetSingerSongList', 'param': {'order': 1, 'singerMid': `${singerMid}`, 'begin': 0, 'num': 10}, 'module': 'musichall.song_list_server'}}
+    singerId
+    // data: { 'comm': { 'ct': 24, 'cv': 0 }, 'singerSongList': { 'method': 'GetSingerSongList', 'param': { 'order': 1, 'singerId': `${singerId}`, 'begin': 0, 'num': 10 }, 'module': 'musichall.song_list_server' } }
   })
   return axios.get(url, {
     params: data
@@ -38,7 +45,7 @@ export function getSingerDetail (singerMid) {
     console.log(error)
   })
 }
-export function getSingerVkey(songMid) {
+export function getSingerVkey(musicId) {
   const url = '/api/getMusic' // 一定要加上/api
 
   const data = Object.assign({}, commonParams, {
@@ -48,7 +55,8 @@ export function getSingerVkey(songMid) {
     notice: 0,
     platform: 'yqq.json',
     needNewCode: 0,
-    data: {'req': {'module': 'CDN.SrfCdnDispatchServer', 'method': 'GetCdnDispatch', 'param': {'guid': '4989877341', 'calltype': 0, 'userip': ''}}, 'req_0': {'module': 'vkey.GetVkeyServer', 'method': 'CgiGetVkey', 'param': {'guid': '4989877341', 'songmid': [`${songMid}`], 'songtype': [0], 'uin': '0', 'loginflag': 1, 'platform': '20'}}, 'comm': {'uin': 0, 'format': 'json', 'ct': 24, 'cv': 0}}
+    musicId
+    // data: { 'req': { 'module': 'CDN.SrfCdnDispatchServer', 'method': 'GetCdnDispatch', 'param': { 'guid': '4989877341', 'calltype': 0, 'userip': '' } }, 'req_0': { 'module': 'vkey.GetVkeyServer', 'method': 'CgiGetVkey', 'param': { 'guid': '4989877341', 'songmid': [`${songMid}`], 'songtype': [0], 'uin': '0', 'loginflag': 1, 'platform': '20' } }, 'comm': { 'uin': 0, 'format': 'json', 'ct': 24, 'cv': 0 } }
   })
   return axios.get(url, {
     params: data

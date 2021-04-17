@@ -1,7 +1,7 @@
 import jsonp from 'common/js/jsonp'
 import { commonParams, options } from './config'
- import axios from 'axios'
-export function getRecommend () {
+import axios from 'axios'
+export function getRecommend() {
   const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
   const data = Object.assign({}, commonParams, {
     uin: 0,
@@ -10,7 +10,7 @@ export function getRecommend () {
   })
   return jsonp(url, data, options)
 }
-export function getDiscList () {
+export function getDiscList() {
   const url = '/api/getDiscList'
   const data = Object.assign({}, commonParams, {
     hostUin: 0,
@@ -32,14 +32,14 @@ export function getDiscList () {
   })
 }
 // 官方歌单
-export function getPlayList () {
+export function getPlayList() {
   const url = '/api/getPlayList'
   const data = Object.assign({}, commonParams, {
     loginUin: 0,
     hostUin: 0,
     platform: 'yqq.json',
     needNewCode: 0,
-    data: {'comm': {'ct': 24}, 'playlist': {'method': 'get_playlist_by_category', 'param': {'id': 3317, 'curPage': 1, 'size': 40, 'order': 5, 'titleid': 3317}, 'module': 'playlist.PlayListPlazaServer'}}
+    data: { 'comm': { 'ct': 24 }, 'playlist': { 'method': 'get_playlist_by_category', 'param': { 'id': 3317, 'curPage': 1, 'size': 40, 'order': 5, 'titleid': 3317 }, 'module': 'playlist.PlayListPlazaServer' } }
   })
   return axios.get(url, {
     params: data
@@ -50,14 +50,14 @@ export function getPlayList () {
   })
 }
 // 达人歌单
-export function getRePlaylist () {
+export function getRePlaylist() {
   const url = '/api/getRePlaylist'
   const data = Object.assign({}, commonParams, {
     loginUin: 0,
     hostUin: 0,
     platform: 'yqq.json',
     needNewCode: 0,
-    data: {'comm': {'ct': 24}, 'recomPlaylist': {'method': 'get_hot_recommend', 'param': {'async': 1, 'cmd': 2}, 'module': 'playlist.HotRecommendServer'}}
+    data: { 'comm': { 'ct': 24 }, 'recomPlaylist': { 'method': 'get_hot_recommend', 'param': { 'async': 1, 'cmd': 2 }, 'module': 'playlist.HotRecommendServer' } }
   })
   return axios.get(url, {
     params: data
@@ -68,14 +68,14 @@ export function getRePlaylist () {
   })
 }
 // 新碟
-export function getNewAlbum () {
+export function getNewAlbum() {
   const url = '/api/getNewAlbum'
   const data = Object.assign({}, commonParams, {
     loginUin: 0,
     hostUin: 0,
     platform: 'yqq.json',
     needNewCode: 0,
-    data: {'new_album': {'module': 'newalbum.NewAlbumServer', 'method': 'get_new_album_info', 'param': {'area': 1, 'start': 0, 'num': 20}}, 'new_album_tag': {'module': 'newalbum.NewAlbumServer', 'method': 'get_new_album_area', 'param': {}}, 'comm': {'ct': 24, 'cv': 0}}
+    data: { 'new_album': { 'module': 'newalbum.NewAlbumServer', 'method': 'get_new_album_info', 'param': { 'area': 1, 'start': 0, 'num': 20 } }, 'new_album_tag': { 'module': 'newalbum.NewAlbumServer', 'method': 'get_new_album_area', 'param': {} }, 'comm': { 'ct': 24, 'cv': 0 } }
   })
   return axios.get(url, {
     params: data

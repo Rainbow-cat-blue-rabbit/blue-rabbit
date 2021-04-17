@@ -1,3 +1,9 @@
+<!--
+ * @Author: JaneChelle
+ * @Date: 2019-10-24 14:53:02
+ * @LastEditTime: 2021-04-17 20:14:32
+ * @Description:
+-->
 <template>
   <transition name="slide">
     <div class="singer">
@@ -29,14 +35,18 @@
       selectSinger (singer) {
         // 编程式接口
         this.$router.push({
-          path: `/singer/${singer.singer_mid}`
+          path: `/singer/${singer.singer_id}`
         })
         // 实现对mutation的提交 类似于 this.$store.commit('setSinger', singer)，进而改变 state值
         this.setSinger(singer)
       },
       _getSingerList () {
         getSingerList().then((res) => {
-            this.singers = res.singerList.data.singerlist
+          if (res.code === 1) {
+            this.singers = res.data
+          }
+          console.log(res)
+          // this.singers = res.singerList.data.singerlist
         })
       },
       back() {
