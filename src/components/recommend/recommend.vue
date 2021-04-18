@@ -1,3 +1,9 @@
+<!--
+ * @Author: JaneChelle
+ * @Date: 2019-10-24 14:53:02
+ * @LastEditTime: 2021-04-18 15:24:27
+ * @Description:
+-->
 <template>
 <div class="recommend">
   <scroll ref="scroll" class="recommend-content">
@@ -25,7 +31,7 @@
             <ul class="list-wrapper" ref="songList">
               <li @click="selectItem(item)" v-for="(item, index) in playList.slice(0, 6)" class="list-item" :key="index">
                 <div class="icon">
-                  <img v-lazy="item.cover_url_big" alt="" width="90" height="90">
+                  <img v-lazy="`${baseUrl}` + item.cover_url_big" alt="" width="90" height="90">
                 </div>
                 <span v-html="item.title" class="title"></span>
               </li>
@@ -45,7 +51,7 @@
             <ul class="list-wrapper">
               <li @click="selectDoyen(item)" v-for="(item, index) in rePlaylist.slice(0, 6)" class="list-item item" :key="index">
                 <div class="icon">
-                  <img v-lazy="item.cover" alt="" width="90" height="90">
+                  <img v-lazy="`${baseUrl}` + item.cover" alt="" width="90" height="90">
                 </div>
                 <span v-html="item.title" class="s-title"></span>
               </li>
@@ -66,7 +72,7 @@
             <ul class="list-wrapper">
             <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum.slice(0, 6)" class="list-item" :key="index">
               <div class="icon">
-                <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="90" height="90">
+                <img v-lazy="`${baseUrl}` + items.pic_mid" width="90" height="90">
               </div>
               <div v-html="items.name" class="name"></div>
               <div v-html="items.release_time" class="time"></div>
@@ -91,6 +97,7 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {mapMutations} from 'vuex'
+  import { baseUrl } from '../../common/js/config'
   export default {
     name: 'recommend',
     data () {
@@ -98,7 +105,8 @@
         recommends: [],
         playList: [],
         rePlaylist: [],
-        newAlbum: []
+        newAlbum: [],
+        baseUrl
       }
     },
     created () {
@@ -137,6 +145,7 @@
       // 轮播图
       _getRecommend () {
         getRecommend().then((res) => {
+          console.log(res)
           if (res.code === ERR_OK) {
             this.recommends = res.data.slider
           }
@@ -148,19 +157,28 @@
       // 官方歌单
       _getPlayList () {
         getPlayList().then((res) => {
-          this.playList = res.playlist.data.v_playlist
+          if (res.code === 1) {
+            this.playList = res.data
+          }
+          console.log('官方歌单', res)
         })
       },
       // 达人歌单
       _getRePlaylist () {
         getRePlaylist().then((res) => {
-          this.rePlaylist = res.recomPlaylist.data.v_hot
+          if (res.code === 1) {
+            console.log('达人歌单', res)
+            this.rePlaylist = res.data
+          }
         })
       },
       // 最新专辑
       _getNewAlbum () {
         getNewAlbum().then((res) => {
-          this.newAlbum = res.new_album.data.albums
+          console.log('最新专辑', res)
+          if (res.code === 1) {
+            this.newAlbum = res.data
+          }
         })
       },
       ...mapMutations({

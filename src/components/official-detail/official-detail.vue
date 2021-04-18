@@ -38,15 +38,16 @@
           return
         }
         getCdInfo(this.playList.tid).then((res) => {
+          console.log(res)
           if (res.code === ERR_OK) {
-            this.songs = this._normalizeSongs(res.cdlist[0].songlist)
+            this.songs = this._normalizeSongs(res.data)
           }
         })
       },
       _normalizeSongs (list) {
         let ret = []
         list.forEach((musicData) => {
-          if (musicData.id && musicData.mid) {
+          if (musicData.musicId && musicData.singerId) {
             ret.push(createSong(musicData))
           }
         })

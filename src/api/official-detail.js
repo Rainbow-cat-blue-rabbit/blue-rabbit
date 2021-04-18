@@ -1,18 +1,15 @@
-import { commonParams } from './config'
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-11-07 15:40:18
+ * @LastEditTime: 2021-04-18 15:49:37
+ * @Description:
+ */
+// import { commonParams } from './config'
 import axios from 'axios'
-export function getCdInfo (disstid) {
+export function getCdInfo(mid) {
   const url = '/api/getCdInfo'
-  const data = Object.assign({}, commonParams, {
-    type: 1,
-    json: 1,
-    utf8: 1,
-    onlysong: 0,
-    new_format: 1,
-    disstid: `${disstid}`,
-    loginUin: 0,
-    hostUin: 0,
-    platform: 'yqq.json',
-    needNewCode: 0
+  const data = Object.assign({}, {
+    mid
   })
   return axios.get(url, {
     params: data

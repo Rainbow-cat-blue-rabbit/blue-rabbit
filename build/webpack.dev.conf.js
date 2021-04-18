@@ -48,13 +48,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       //官方歌单
       app.get('/api/getPlayList', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        let url = 'http://localhost:10019/songList/official'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -65,13 +65,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       //达人歌单
       app.get('/api/getRePlaylist', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        let url = 'http://localhost:10019/songList/talent'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -82,13 +82,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       //新碟
       app.get('/api/getNewAlbum', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        let url = 'http://localhost:10019/songList/popular'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/portal/album_lib.html',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/portal/album_lib.html',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -240,13 +240,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       // 官方详情
       app.get('/api/getCdInfo', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+        let url = 'http://localhost:10019/songList/songListDetails'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -257,13 +257,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       // 达人
       app.get('/api/getDoyenInfo', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+        let url = 'http://localhost:10019/songList/songListDetails'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -274,13 +274,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       // 最新专辑
       app.get('/api/getAlbumSongList', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        let url = 'http://localhost:10019/songList/songListDetails'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
