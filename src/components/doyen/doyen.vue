@@ -9,7 +9,7 @@
         <ul class="list-wrapper">
           <li @click="selectItemDoyen(item)" v-for="(item, index) in rePlaylist" class="list-item item" :key="index">
             <div class="icon">
-              <img v-lazy="item.cover" alt="" width="90" height="90">
+              <img v-lazy="`${baseUrl}`+item.cover" alt="" width="90" height="90">
             </div>
             <div class="text">
               <h2 class="name" v-html="item.username"></h2>
@@ -31,11 +31,13 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {mapMutations} from 'vuex'
+  import { baseUrl } from '../../common/js/config'
   export default {
     name: 'doyen',
     data () {
       return {
-        rePlaylist: []
+        rePlaylist: [],
+        baseUrl
       }
     },
     created () {
@@ -51,7 +53,10 @@
       },
       _getRePlaylist () {
         getRePlaylist().then((res) => {
-          this.rePlaylist = res.recomPlaylist.data.v_hot
+          if (res.code === 1) {
+            console.log('达人歌单', res)
+            this.rePlaylist = res.data
+          }
         })
       },
       ...mapMutations({

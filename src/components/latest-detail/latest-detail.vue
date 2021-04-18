@@ -1,3 +1,9 @@
+<!--
+ * @Author: JaneChelle
+ * @Date: 2019-11-11 20:30:05
+ * @LastEditTime: 2021-04-18 16:21:21
+ * @Description:
+-->
 <template>
   <transition name="slide">
     <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
@@ -20,8 +26,7 @@
         return this.newAlbum.name
       },
       bgImage () {
-       let mid = this.newAlbum.mid
-        return 'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + mid + '.jpg?max_age=2592000'
+        return this.newAlbum.pic_mid
       },
       ...mapGetters([
         'newAlbum'
@@ -37,16 +42,16 @@
           return
         }
         getAlbumSongList(this.newAlbum.mid).then((res) => {
-            this.songs = this._normalizeSongs(res.albumSonglist.data.songList)
+          console.log(res)
+            this.songs = this._normalizeSongs(res.data)
             console.log(this.songs.songInfo)
         })
       },
       _normalizeSongs (songList) {
         let ret = []
         // 精简代码
-        songList.forEach((item) => {
-          let { songInfo } = item
-          if (songInfo.id && songInfo.album.mid && songInfo.file.media_mid) {
+        songList.forEach((songInfo) => {
+          if (songInfo.singerId && songInfo.musicId) {
             // 创建song实力
             ret.push(createSong(songInfo))
           }

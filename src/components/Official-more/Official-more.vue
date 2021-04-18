@@ -9,7 +9,7 @@
         <ul class="list-wrapper" ref="songList">
           <li @click="selectItem(item)" v-for="(item, index) in playList" class="list-item" :key="index">
             <div class="icon">
-              <img v-lazy="item.cover_url_big" alt="" width="160" height="160">
+              <img v-lazy="`${baseUrl}`+item.cover_url_big" alt="" width="160" height="160">
             </div>
             <div v-html="item.title" class="title"></div>
           </li>
@@ -28,11 +28,13 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {mapMutations} from 'vuex'
+  import { baseUrl } from '../../common/js/config'
   export default {
     name: 'Official-more',
     data () {
       return {
-        playList: []
+        playList: [],
+        baseUrl
       }
     },
     created () {
@@ -41,7 +43,9 @@
     methods: {
       _getPlayList () {
         getPlayList().then((res) => {
-          this.playList = res.playlist.data.v_playlist
+          if (res.code === 1) {
+            this.playList = res.data
+          }
         })
       },
       // 点击选中，跳转路由

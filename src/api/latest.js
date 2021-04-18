@@ -1,14 +1,15 @@
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-11-11 20:36:37
+ * @LastEditTime: 2021-04-18 16:22:11
+ * @Description:
+ */
 import { commonParams } from './config'
 import axios from 'axios'
-export function getAlbumSongList (albumMid) {
+export function getAlbumSongList(mid) {
   const url = '/api/getAlbumSongList'
-  const data = Object.assign({}, commonParams, {
-    g_tk: 2065505414,
-    hostUin: 0,
-    format: 'json',
-    platform: 'yqq.json',
-    needNewCode: 0,
-    data: {'comm': {'ct': 24, 'cv': 10000}, 'albumSonglist': {'method': 'GetAlbumSongList', 'param': {'albumMid': `${albumMid}`, 'albumID': 0, 'begin': 0, 'num': 10, 'order': 2}, 'module': 'music.musichallAlbum.AlbumSongList'}}
+  const data = Object.assign({}, {
+    mid
   })
   return axios.get(url, {
     params: data

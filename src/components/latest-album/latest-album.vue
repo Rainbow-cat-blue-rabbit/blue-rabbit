@@ -9,7 +9,7 @@
         <ul class="list-wrapper">
           <li @click="selectAlbum(items)" v-for="(items, index) in newAlbum" class="list-item" :key="index">
             <div class="icon">
-              <img v-lazy="'https://y.gtimg.cn/music/photo_new/T002R300x300M000' + items.photo.pic_mid + '.jpg?max_age=2592000'" width="150" height="150">
+              <img v-lazy="`${baseUrl}` + items.pic_mid" width="150" height="150">
             </div>
             <div v-html="items.name" class="name"></div>
             <div v-html="items.release_time" class="time"></div>
@@ -29,11 +29,13 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import {mapMutations} from 'vuex'
+  import { baseUrl } from '../../common/js/config'
   export default {
     name: 'Official-more',
     data () {
       return {
-        newAlbum: []
+        newAlbum: [],
+        baseUrl
       }
     },
     created () {
@@ -48,7 +50,9 @@
       },
       _getNewAlbum () {
         getNewAlbum().then((res) => {
-          this.newAlbum = res.new_album.data.albums
+          if (res.code === 1) {
+            this.newAlbum = res.data
+          }
         })
       },
       back() {
