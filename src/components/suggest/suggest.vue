@@ -59,6 +59,7 @@
           console.log(res)
             if (res.code === 1) {
               this.result = res.data
+              this.hasMore = false
               console.log(this.result)
               // this._checkMore(res.data)
             }

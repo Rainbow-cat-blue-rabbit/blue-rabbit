@@ -37,7 +37,7 @@
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
   const backdrop = prefixStyle('backdrop-filter')
-
+  import {baseUrl} from '../../common/js/config'
   export default {
     name: 'music-list',
     props: {
@@ -57,7 +57,8 @@
     },
     data () {
       return {
-        scrollY: 0
+        scrollY: 0,
+        baseUrl
       }
     },
     created() {
@@ -66,7 +67,7 @@
     },
     computed: {
       bgStyle () {
-        return `background-image: url(${this.bgImage})`
+        return `background-image: url(${baseUrl}${this.bgImage})`
       }
     },
     mounted () {
