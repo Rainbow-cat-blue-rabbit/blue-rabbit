@@ -32,12 +32,12 @@
   import SongList from 'base/song-list/song-list'
   import Loading from 'base/loading/loading'
   import { prefixStyle } from 'common/js/dom'
+  import { baseUrl } from '../../common/js/config'
   // import { getSingerVkey } from 'api/singer'
   import {mapActions} from 'vuex'
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
   const backdrop = prefixStyle('backdrop-filter')
-  import {baseUrl} from '../../common/js/config'
   export default {
     name: 'music-list',
     props: {

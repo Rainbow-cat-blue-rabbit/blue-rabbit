@@ -4,7 +4,7 @@
       <transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
         <div class="normal-player" v-show="fullScreen">
         <div class="background">
-          <img width="100%" height="100%" :src="currentSong.image">
+          <img width="100%" height="100%" :src="`${baseUrl}` + currentSong.image">
         </div>
         <div class="top">
           <div class="back" @click="back">
@@ -21,7 +21,7 @@
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" :class="cdCls">
-                <img :src="currentSong.image" alt="" class="image">
+                <img :src="`${baseUrl}` + currentSong.image" alt="" class="image">
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
       <transition name="mini">
         <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-          <img :class="cdCls" :src="currentSong.image" alt="" width="40" height="40">
+          <img :class="cdCls" :src="`${baseUrl}` + currentSong.image" alt="" width="40" height="40">
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.musicName"></h2>
