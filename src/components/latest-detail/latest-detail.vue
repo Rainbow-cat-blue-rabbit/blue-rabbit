@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-11-11 20:30:05
- * @LastEditTime: 2021-04-18 16:21:21
+ * @LastEditTime: 2021-04-18 16:58:00
  * @Description:
 -->
 <template>
@@ -44,7 +44,6 @@
         getAlbumSongList(this.newAlbum.mid).then((res) => {
           console.log(res)
             this.songs = this._normalizeSongs(res.data)
-            console.log(this.songs.songInfo)
         })
       },
       _normalizeSongs (songList) {

@@ -1,7 +1,7 @@
 /*
  * @Author: JaneChelle
  * @Date: 2019-10-29 15:32:40
- * @LastEditTime: 2021-04-17 21:25:44
+ * @LastEditTime: 2021-04-18 21:06:16
  * @Description:
  */
 import { getLyric } from 'api/song'
@@ -9,12 +9,12 @@ import { ERR_OK } from 'api/config'
 import { Base64 } from 'js-base64'
 export default class Song {
   // 封装对象
-  constructor({ singerId, musicId, singerName, musicName, duration, image, audio }) {
+  constructor({ singerId, musicId, singerName, musicName, image, audio }) {
     this.singerId = singerId
     this.musicId = musicId
     this.musicName = musicName
     this.singerName = singerName
-    this.duration = duration
+    // this.duration = duration
     this.image = image
     this.audio = audio
   }
@@ -41,7 +41,7 @@ export function createSong(songInfo) {
     musicId: songInfo.musicId,
     musicName: songInfo.musicName,
     singerName: songInfo.singerName,
-    duration: songInfo.updateTime - songInfo.createTime,
+    // duration: songInfo.duration,
     image: songInfo.musicImages,
     audio: songInfo.audio
   })

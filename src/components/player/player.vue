@@ -49,7 +49,7 @@
             <div class="progress-bar-wrapper">
               <progress-bar :percent="percent" @percentChange="onPercentChange"></progress-bar>
             </div>
-            <span class="time time-r">{{format(currentSong.duration)}}</span>
+            <span class="time time-r">{{format(duration)}}</span>
           </div>
           <div class="operators">
             <div class="icon i-left" @click="changeMode">
@@ -107,7 +107,6 @@
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
   import {baseUrl} from '../../common/js/config'
-
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
   export default {
@@ -120,7 +119,8 @@
         currentLyric: null,
         currentLineNum: 0,
         currentShow: 'cd',
-        baseUrl
+        baseUrl,
+        duration: 0
       }
     },
     computed: {
@@ -137,8 +137,9 @@
         return this.playing ? 'play' : 'play pause'
       },
       percent () {
-        console.log(this.currentSong.audio)
-        return this.currentTime / this.currentSong.duration
+          this.duration = localStorage.getItem('duration')
+          console.log(this.currentSong.audio, this.duration)
+          return this.currentTime / this.duration
       },
       iconMode () {
         return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
@@ -388,7 +389,8 @@
         this.songReady = false
       },
       onPercentChange (percent) {
-        this.$refs.audio.currentTime = this.currentSong.duration * percent
+        console.log(this.duration)
+        this.$refs.audio.currentTime = this.duration * percent
         if (!this.playing) {
           this.togglePlaying()
         }

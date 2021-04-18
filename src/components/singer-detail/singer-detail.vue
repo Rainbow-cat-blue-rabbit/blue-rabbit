@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-26 09:52:45
- * @LastEditTime: 2021-04-18 16:11:54
+ * @LastEditTime: 2021-04-18 17:17:13
  * @Description:
 -->
 <!--
@@ -52,7 +52,6 @@
           return
         }
         getSingerDetail(this.singer.singer_id).then((res) => {
-          console.log(res)
           this.songs = this._normalizeSongs(res.data)
         })
       },
@@ -68,7 +67,6 @@
             ret.push(newSong)
           }
         })
-        console.log(ret)
         return ret
       }
     },

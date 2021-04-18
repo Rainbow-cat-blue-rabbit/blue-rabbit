@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-24 14:53:02
- * @LastEditTime: 2021-04-18 15:24:27
+ * @LastEditTime: 2021-04-18 20:09:03
  * @Description:
 -->
 <template>
@@ -38,7 +38,7 @@
             </ul>
           </cube-scroll>
         </div>
-<!--     2.   达人歌单-->
+<!--2.达人歌单-->
         <div>
           <div class="list-card">
             <h1 class="list-title">达人歌单</h1>
@@ -59,7 +59,7 @@
           </cube-scroll>
         </div>
 
-<!--   3.     新碟-->
+<!--3.新碟-->
         <div>
           <div class="list-card">
             <h1 class="list-title">最新专辑</h1>

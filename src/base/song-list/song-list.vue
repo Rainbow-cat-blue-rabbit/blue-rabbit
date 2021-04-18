@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-30 14:48:34
- * @LastEditTime: 2021-04-17 20:56:45
+ * @LastEditTime: 2021-04-18 21:33:10
  * @Description:
 -->
 <template>
@@ -18,18 +18,30 @@
 </template>
 
 <script>
+  import { play } from '../../api/play'
   export default {
     name: 'song-list',
     props: {
       songs: {
         type: Array,
-        default: () => []
+        default: () => [],
+        duration: '',
+        status: ''
       }
     },
     methods: {
       selectItem(item, index) {
         // 向上派发出去
         this.$emit('select', item, index)
+        play(item.musicId).then((res) => {
+          console.log(res)
+          if (res.code === 1) {
+            this.duration = res.data.length
+            this.status = res.data.status
+            localStorage.setItem('duration', this.duration)
+            localStorage.setItem('status', this.status)
+          }
+        })
       }
     }
   }
