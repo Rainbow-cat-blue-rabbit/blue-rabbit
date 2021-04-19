@@ -7,22 +7,45 @@
       <h1 class="heading">排行</h1>
       <scroll class="toplist">
         <ul>
-          <li v-for="(items, index) in topList" :key="index" class="item" @click="selectItem(item)">
-            <!-- <div v-for="(item, index) in items.toplist" :key="index" class="item" @click="selectItem(item)"> -->
+          <!-- 新歌榜 -->
+          <li class="item">
               <div class="icon">
-                <img v-lazy="item.musicImages" alt="" width="100" height="100">
+                <img src="../../assets/biaosheng.jpg" alt="" width="100" height="100">
               </div>
               <ul class="songList">
-                <li class="song" v-for="(song, index) in item.song" :key="index">
-                  <span class="text_name">{{song.rank}}</span>
-                  <span><span class="text_name">{{song.title}}</span>-{{song.singerName}}</span>
+                <li class="song" v-for="(item, index) in newList" :key="index" @click="selectItem1(item)">
+                  <!-- <span class="text_name">{{item.rank}}</span> -->
+                  <span><span class="text_name">{{item.musicName}}</span>-{{item.singerName}}</span>
                 </li>
               </ul>
-            <!-- </div> -->
+          </li>
+          <!-- 热歌榜 -->
+          <li  class="item">
+              <div class="icon">
+                <img src="../../assets/rege.jpg" alt="" width="100" height="100">
+              </div>
+              <ul class="songList">
+                <li class="song" v-for="(item, index) in playList" :key="index" @click="selectItem2(item)">
+                  <!-- <span class="text_name">{{item.searchTimes}}</span> -->
+                  <span><span class="text_name">{{item.musicName}}</span>-{{item.singerName}}</span>
+                </li>
+              </ul>
+          </li>
+          <!-- 搜索榜 -->
+          <li  class="item">
+              <div class="icon">
+                <img src="../../assets/xinge.jpg" alt="" width="100" height="100">
+              </div>
+              <ul class="songList">
+                <li class="song" v-for="(item, index) in searchList" :key="index" @click="selectItem3(item)">
+                  <!-- <span class="text_name">{{item.rank}}</span> -->
+                  <span><span class="text_name">{{item.musicName}}</span>-{{item.singerName}}</span>
+                </li>
+              </ul>
           </li>
         </ul>
         <div class="loading-container">
-          <loading></loading>
+          <loading v-if="!searchList.length"></loading>
         </div>
       </scroll>
       <router-view></router-view>
@@ -41,7 +64,9 @@
     },
     data () {
       return {
-        topList: []
+        newList: [],
+        playList: [],
+        searchList: []
       }
     },
     methods: {
@@ -49,17 +74,30 @@
           getTopList().then((res) => {
             console.log(res)
             if (res.code === 1) {
-              this.topList = res.data.newList
-              console.log(this.topList)
+              this.newList = res.data.newList
+              this.playList = res.data.playList
+              this.searchList = res.data.searchList
             }
           })
         },
       back() {
         this.$router.back()
       },
-      selectItem (item) {
+      selectItem1 (item) {
           this.$router.push({
-            path: `/rank/${item.topId}`
+            path: `/rank/${1}`
+          })
+        this.setTopList(item)
+      },
+      selectItem2 (item) {
+          this.$router.push({
+            path: `/rank/${2}`
+          })
+        this.setTopList(item)
+      },
+      selectItem3 (item) {
+          this.$router.push({
+            path: `/rank/${3}`
           })
         this.setTopList(item)
       },

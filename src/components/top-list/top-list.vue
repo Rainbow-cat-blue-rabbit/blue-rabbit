@@ -1,3 +1,9 @@
+<!--
+ * @Author: JaneChelle
+ * @Date: 2019-11-04 21:21:51
+ * @LastEditTime: 2021-04-19 21:23:34
+ * @Description:
+-->
 <template>
 <transition name="slide">
   <music-list :rank="rank" :title="title" :bg-image="bgImage" :songs="songs"></music-list>
@@ -14,7 +20,8 @@
     data () {
       return {
         songs: [],
-        rank: true
+        rank: true,
+        typeNum: 1
       }
     },
     computed: {
@@ -22,7 +29,14 @@
         return this.topList.title
       },
       bgImage () {
-          return this.topList.mbFrontPicUrl
+        if (this.typeNum === 1) {
+          return '/upload/T003R300x300M000004MbuEP0Eyiff.jpg'
+        } else if(this.typeNum === 2) {
+          return '/upload/T003R300x300M00000359vyu2SlQZq.jpg'
+        } else {
+          return '/upload/T003R300x300M000004LVKKs3zDEdw.jpg'
+        }
+
       },
       ...mapGetters([
         'topList'
@@ -33,19 +47,17 @@
     },
     methods: {
       _getMusicList () {
-        if (!this.topList.topId) {
-            this.$router.push('/rank')
-            return
-        }
-        getMusicList(this.topList.topId, this.topList.period).then((res) => {
-            this.songs = this._normalizeSongs(res.detail.data.data.song)
+        let url = window.location.href
+        this.typeNum = url.substr(url.length - 1, 1)
+        getMusicList(this.typeNum).then((res) => {
+            this.songs = this._normalizeSongs(res.data)
             console.log(this.songs)
         })
       },
       _normalizeSongs(list) {
         let ret = []
         list.forEach((musicData) => {
-          if (musicData.id && musicData.mid) {
+          if (musicData.musicId) {
             ret.push(createSong(musicData))
           }
         })

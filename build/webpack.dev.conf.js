@@ -219,7 +219,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       // 获取排行榜单列表详情
       app.get('/api/getMusicList', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'http://localhost:10019/music/leaderboard'
+        let url = 'http://localhost:10019/music/leaderboardDetails'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
           // headers: {
