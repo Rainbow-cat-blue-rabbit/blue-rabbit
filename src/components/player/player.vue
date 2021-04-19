@@ -64,8 +64,8 @@
             <div class="icon i-right" :class="disableCls">
               <i class="icon-next" @click="next"></i>
             </div>
-            <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+            <div class="icon i-right" @click="myFavorites" ref="favorites">
+              <i :class="[status === '0'  ? 'icon icon-not-favorite' : 'icon icon-favorite']"></i>
             </div>
           </div>
         </div>
@@ -107,6 +107,7 @@
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
   import {baseUrl} from '../../common/js/config'
+  import { collect } from '../../api/collect'
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
   export default {
@@ -120,7 +121,8 @@
         currentLineNum: 0,
         currentShow: 'cd',
         baseUrl,
-        duration: 0
+        duration: 0,
+        status: localStorage.getItem('status')
       }
     },
     computed: {
@@ -138,7 +140,8 @@
       },
       percent () {
           this.duration = localStorage.getItem('duration')
-          console.log(this.currentSong.audio, this.duration)
+          this.status = localStorage.getItem('status')
+          // console.log(this.currentSong.audio, this.duration)
           return this.currentTime / this.duration
       },
       iconMode () {
@@ -158,6 +161,16 @@
       this.touch = {}
     },
     methods: {
+      myFavorites() {
+        collect(this.currentSong.musicId).then((res) => {
+            console.log(res)
+            if (res.code === 1) {
+              this.status = res.data
+              localStorage.setItem('status', this.status)
+            }
+          })
+        console.log(111)
+      },
       back() {
         this.setFullScreen(false)
       },

@@ -1,12 +1,12 @@
 /*
  * @Author: JaneChelle
- * @Date: 2021-04-18 17:21:23
- * @LastEditTime: 2021-04-19 17:05:38
- * @Description:
+ * @Date: 2021-04-19 15:07:13
+ * @LastEditTime: 2021-04-19 17:05:06
+ * @Description: 收藏或取消
  */
 import axios from 'axios'
-export function play(musicId) {
-  const url = 'http://localhost:10019/music/play'
+export function collect(musicId) {
+  const url = 'http://localhost:10019/collect/collect'
   const data = Object.assign({}, {
     musicId
   })

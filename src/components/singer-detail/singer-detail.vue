@@ -1,13 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-26 09:52:45
- * @LastEditTime: 2021-04-18 17:17:13
- * @Description:
--->
-<!--
- * @Author: JaneChelle
- * @Date: 2019-10-26 09:52:45
- * @LastEditTime: 2021-04-17 21:16:52
+ * @LastEditTime: 2021-04-19 17:29:14
  * @Description:
 -->
 <template>
@@ -59,9 +53,7 @@
         let ret = []
         // 精简代码
         songList.forEach((item) => {
-          console.log(item)
-            // let { songInfo } = item
-            let songInfo = item
+          let songInfo = item
           if (songInfo.singerId && songInfo.musicId && songInfo.audio) {
             const newSong = createSong(songInfo)
             ret.push(newSong)

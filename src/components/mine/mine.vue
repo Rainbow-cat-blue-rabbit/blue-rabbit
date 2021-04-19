@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-24 15:55:29
- * @LastEditTime: 2021-04-15 11:05:47
+ * @LastEditTime: 2021-04-19 20:08:40
  * @Description:
 -->
 <template>
@@ -13,13 +13,20 @@
       </div>
       <h1 class="heading">收藏</h1>
     </div>
-    <scroll :data="songs" @scroll="scroll" ref="list" class="list"
+    <scroll :data="result" @scroll="scroll" ref="list" class="list"
               :listen-scroll="listenScroll"
               :probe-type="probeType">
-        <div class="song-list-wrapper">
-          <song-list @select="selectItem" :songs="songs"></song-list>
-        </div>
-        <div v-show="!songs.length" class="loading-container">
+        <ul class="suggest-list" ref="suggest">
+        <li @click="selectItem(item)" class="suggest-item" v-for="(item,index) in result" :key="index">
+          <div class="icon">
+            <i class="icon-music"></i>
+          </div>
+          <div class="name">
+            <p class="text">{{item.musicName}}-{{item.singerName}}</p>
+          </div>
+        </li>
+      </ul>
+        <div v-show="!result.length" class="loading-container">
           <!-- <loading></loading> -->
           <img src="../../assets/null.png" alt="" class="img-null">
         </div>
@@ -31,48 +38,62 @@
 
 <script>
   import Scroll from 'base/scroll/scroll'
+  import { mapActions } from 'vuex'
+  import { select } from 'api/select'
+  import { createSong } from 'common/js/song'
+  import MusicList from 'components/music-list/music-list'
   import SongList from 'base/song-list/song-list'
   import Loading from 'base/loading/loading'
-  import {mapActions} from 'vuex'
   export default {
     name: 'mine',
+    data () {
+      return {
+        result: []
+      }
+    },
     created () {
+      // 根据singer获取详细数据
+      this._getSingerDetail()
       this.probeType = 3
       this.listenScroll = true
     },
-    data () {
-      return {
-        songs: [],
-        scrollY: 0
-      }
-    },
     methods: {
+      back() {
+        this.$router.back()
+      },
       scroll(pos) {
         this.scrollY = pos.y
       },
-      back() {
-        this.$router.replace('/recommend')
-      },
-      selectItem (item, index) {
-        this.selectPlay({
-          list: this.songs,
-          index
-        })
-      },
-      random () {
-        this.randomPlay({
-          list: this.songs
-        })
-      },
       ...mapActions([
-        'selectPlay',
-        'randomPlay'
-      ])
+        'insertSong'
+      ]),
+      selectItem(item) {
+        this.insertSong(item)
+      },
+      _getSingerDetail () {
+        select().then((res) => {
+          console.log(res)
+          this.result = this._normalizeSongs(res.data)
+        })
+      },
+      _normalizeSongs (songList) {
+        let ret = []
+        // 精简代码
+        songList.forEach((item) => {
+          let songInfo = item
+          if (songInfo.singerId && songInfo.musicId && songInfo.audio) {
+            const newSong = createSong(songInfo)
+            ret.push(newSong)
+          }
+        })
+        return ret
+      }
     },
     components: {
+      MusicList,
+      Loading,
       Scroll,
-      SongList,
-      Loading
+      SongList
     }
   }
 </script>
@@ -120,13 +141,29 @@
         color: #000
     .list
       position fixed
-      top 0
+      top 40px
       bottom 0
       width 100%
       background $color-background
-      /*overflow hidden*/
-      .song-list-wrapper
-        padding 20px 30px
+      .suggest-list
+        padding: 10px 30px
+        .suggest-item
+          display: flex
+          align-items: center
+          padding-bottom: 20px
+      .icon
+        flex: 0 0 30px
+        width: 30px
+        [class^="icon-"]
+          font-size: 14px
+          color: $color-text
+      .name
+        flex: 1
+        font-size: $font-size-medium
+        color: $color-text
+        overflow: hidden
+        .text
+          no-wrap()
       .loading-container
         position absolute
         width 100%

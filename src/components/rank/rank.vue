@@ -7,10 +7,10 @@
       <h1 class="heading">排行</h1>
       <scroll class="toplist">
         <ul>
-          <li v-for="(items, index) in topList" :key="index">
-            <div v-for="(item, index) in items.toplist" :key="index" class="item" @click="selectItem(item)">
+          <li v-for="(items, index) in topList" :key="index" class="item" @click="selectItem(item)">
+            <!-- <div v-for="(item, index) in items.toplist" :key="index" class="item" @click="selectItem(item)"> -->
               <div class="icon">
-                <img v-lazy="item.frontPicUrl" alt="" width="100" height="100">
+                <img v-lazy="item.musicImages" alt="" width="100" height="100">
               </div>
               <ul class="songList">
                 <li class="song" v-for="(song, index) in item.song" :key="index">
@@ -18,7 +18,7 @@
                   <span><span class="text_name">{{song.title}}</span>-{{song.singerName}}</span>
                 </li>
               </ul>
-            </div>
+            <!-- </div> -->
           </li>
         </ul>
         <div class="loading-container">
@@ -47,7 +47,11 @@
     methods: {
         _getTopList() {
           getTopList().then((res) => {
-              this.topList = res.toplist.data.group
+            console.log(res)
+            if (res.code === 1) {
+              this.topList = res.data.newList
+              console.log(this.topList)
+            }
           })
         },
       back() {

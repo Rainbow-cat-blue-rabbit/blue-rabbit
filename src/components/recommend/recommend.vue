@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-10-24 14:53:02
- * @LastEditTime: 2021-04-18 20:09:03
+ * @LastEditTime: 2021-04-19 15:53:48
  * @Description:
 -->
 <template>
@@ -11,8 +11,8 @@
       <div class="slider-wrapper" v-if="recommends.length">
         <slider>
           <div v-for="(item, index) in recommends" :key="index">
-            <a :href="item.linkUrl">
-              <img class="needsclick" :src="item.picUrl" @load="loadImage">
+            <a>
+              <img class="needsclick" :src="`${baseUrl}`+item.picUrl" @load="loadImage">
             </a>
           </div>
         </slider>
@@ -147,7 +147,7 @@
         getRecommend().then((res) => {
           console.log(res)
           if (res.code === ERR_OK) {
-            this.recommends = res.data.slider
+            this.recommends = res.data
           }
         })
           .catch(err => {

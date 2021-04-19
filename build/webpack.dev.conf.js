@@ -27,7 +27,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
-    before (app) {
+    before(app) {
       //  这里使用axios实现ajax请求：axios是一个基于promise的HTTP库，可以用于浏览器和node.js
       // 在浏览器创建XMLHttpRequest对象，从node.js创建http请求
       app.get('/api/getDiscList', function (req, res) {//这里的路径是给前端发送请求的url
@@ -38,6 +38,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             Referer: 'https://c.y.qq.com/',
             host: 'c.y.qq.com'
           },
+          //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
+          params: req.query,
+        }).then((response) => {
+          res.json(response.data)//返回数据
+        }).catch((error) => {
+          console.log(error)
+        })
+      })
+      // 轮播图
+      app.get('/api/getSlider', function (req, res) {//这里的路径是给前端发送请求的url
+        let url = 'http://localhost:10019/carousel/select'
+        // axios发送get请求，可以自己配置config
+        axios.get(url, {
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -189,13 +202,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       // 排行
       app.get('/api/getTopList', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        let url = 'http://localhost:10019/music/leaderboard'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -206,13 +219,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       // 获取排行榜单列表详情
       app.get('/api/getMusicList', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg'
+        let url = 'http://localhost:10019/music/leaderboard'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          headers: {
-            Referer: 'https://y.qq.com/',
-            host: 'u.y.qq.com'
-          },
+          // headers: {
+          //   Referer: 'https://y.qq.com/',
+          //   host: 'u.y.qq.com'
+          // },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -290,14 +303,45 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
       // 播放
-      app.get('/api/play', function (req, res) {//这里的路径是给前端发送请求的url
-        let url = 'http://localhost:10019/music/play'
+      // app.get('/api/play', function (req, res) {//这里的路径是给前端发送请求的url
+      //   let url = 'http://localhost:10019/music/play'
+      //   // axios发送get请求，可以自己配置config
+      //   axios.get(url, {
+      //     // headers: {
+      //     //   code: localStorage.getItem('Authorization'),
+      //     // },
+      //     //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
+      //     params: req.query,
+      //   }).then((response) => {
+      //     res.json(response.data)//返回数据
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   })
+      // })
+      // // 收藏或取消
+      // app.get('/api/collect', function (req, res) {//这里的路径是给前端发送请求的url
+      //   let url = 'http://localhost:10019/collect/collect'
+      //   // axios发送get请求，可以自己配置config
+      //   axios.get(url, {
+      //     // headers: {
+      //     //   token,
+      //     // },
+      //     //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
+      //     params: req.query,
+      //   }).then((response) => {
+      //     res.json(response.data)//返回数据
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   })
+      // })
+      // 我的收藏
+      app.get('/api/select', function (req, res) {//这里的路径是给前端发送请求的url
+        let url = 'http://localhost:10019/collect/select'
         // axios发送get请求，可以自己配置config
         axios.get(url, {
-          // headers: {
-          //   Referer: 'https://y.qq.com/',
-          //   host: 'u.y.qq.com'
-          // },
+          headers: {
+            token: localStorage.getItem('Authorization'),
+          },
           //  params是即将与请求一起发送的url参数，无格式对象/URLSearchParams对象
           params: req.query,
         }).then((response) => {
@@ -371,8 +415,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)

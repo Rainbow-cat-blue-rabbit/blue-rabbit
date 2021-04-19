@@ -1,14 +1,22 @@
-import jsonp from 'common/js/jsonp'
-import { commonParams, options } from './config'
+/*
+ * @Author: JaneChelle
+ * @Date: 2019-10-24 14:53:02
+ * @LastEditTime: 2021-04-19 15:56:04
+ * @Description:
+ */
+// import jsonp from 'common/js/jsonp'
+import { commonParams } from './config'
 import axios from 'axios'
 export function getRecommend() {
-  const url = 'http://localhost:10019/carousel/select'
-  const data = Object.assign({}, commonParams, {
-    uin: 0,
-    platform: 'h5',
-    needNewCode: 1
+  const url = '/api/getSlider'
+  const data = Object.assign({}, {})
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  }).catch((err) => {
+    console.log(err)
   })
-  return jsonp(url, data, options)
 }
 export function getDiscList() {
   const url = '/api/getDiscList'
