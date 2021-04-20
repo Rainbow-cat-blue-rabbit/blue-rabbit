@@ -25,8 +25,8 @@
   // import {filterSinger} from 'common/js/song'
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
-  import Singer from 'common/js/singer'
-  import {mapMutations, mapActions} from 'vuex'
+  import { mapActions } from 'vuex'
+  import { createSong } from 'common/js/song'
   const TYPE_SINGER = 'singer'
   const perpage = 20
   export default {
@@ -43,7 +43,6 @@
     },
     data () {
       return {
-        page: 1,
         result: [],
         pullup: true,
         hasMore: false
@@ -51,19 +50,29 @@
     },
     methods: {
       search () {
-        this.page = 1
         this.hasMore = true
         // 暂时有问题
         this.$refs.suggest.scrollTo(0, 0)
         search(this.query).then((res) => {
           console.log(res)
             if (res.code === 1) {
-              this.result = res.data
+              this.result = this._normalizeSongs(res.data)
               this.hasMore = false
               console.log(this.result)
-              // this._checkMore(res.data)
             }
         })
+      },
+      _normalizeSongs (songList) {
+        let ret = []
+        // 精简代码
+        songList.forEach((item) => {
+          let songInfo = item
+          if (songInfo.singerId && songInfo.musicId && songInfo.audio) {
+            const newSong = createSong(songInfo)
+            ret.push(newSong)
+          }
+        })
+        return ret
       },
       searchMore () {
         if (!this.hasMore) {
@@ -78,18 +87,8 @@
         })
       },
       selectItem (item) {
-          if (item.type === TYPE_SINGER) {
-            const singer = new Singer({
-              id: item.singermid,
-              name: item.singername
-            })
-            this.$router.push({
-              path: `/search/${singer.id}`
-            })
-            this.setSinger(singer)
-          } else {
-            this.insertSong(item)
-          }
+          console.log(item)
+          this.insertSong(item)
       },
       getIconCls (item) {
         if (item.type === TYPE_SINGER) {
@@ -105,27 +104,6 @@
           return `${item.musicName}-${item.singerName}`
         }
       },
-      _checkMore (data) {
-          const song = data.song
-          if (!song.list.length || (song.curpage * perpage + song.curnum) >= song.totalnum) {
-            this.hasMore = false
-          }
-      },
-      _getResult (data) {
-        let ret = []
-        if (data.zhida && data.zhida.singerid) {
-          // 对象扩展运算符
-          // 这里的type是为了 后续区分 搜索的是否是 歌手
-            ret.push({...data.zhida, ...{type: TYPE_SINGER}})
-        }
-        if (data.song) {
-          ret = ret.concat(data.song.list)
-        }
-        return ret
-      },
-      ...mapMutations({
-        setSinger: 'SET_SINGER'
-      }),
       ...mapActions([
         'insertSong'
       ])

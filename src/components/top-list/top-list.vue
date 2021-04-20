@@ -1,7 +1,7 @@
 <!--
  * @Author: JaneChelle
  * @Date: 2019-11-04 21:21:51
- * @LastEditTime: 2021-04-19 21:23:34
+ * @LastEditTime: 2021-04-20 09:58:53
  * @Description:
 -->
 <template>
@@ -31,12 +31,11 @@
       bgImage () {
         if (this.typeNum === 1) {
           return '/upload/T003R300x300M000004MbuEP0Eyiff.jpg'
-        } else if(this.typeNum === 2) {
+        } else if (this.typeNum === 2) {
           return '/upload/T003R300x300M00000359vyu2SlQZq.jpg'
         } else {
           return '/upload/T003R300x300M000004LVKKs3zDEdw.jpg'
         }
-
       },
       ...mapGetters([
         'topList'
